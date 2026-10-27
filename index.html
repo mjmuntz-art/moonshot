@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- ▼▼ Paste your Apps Script web-app link (ends in /exec) between the quotes ▼▼ -->
+<script>window.MOONSHOT_URL = 'PASTE_YOUR_EXEC_LINK_HERE';</script>
+<!-- ▲▲ That is the only line you ever need to change ▲▲ -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moonshot</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Moonshot">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#11161b">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  html, body { margin: 0; height: 100%; background: #11161b; overflow: hidden; }
+  body { padding-top: env(safe-area-inset-top); box-sizing: border-box; display: flex; flex-direction: column; }
+  #splash { position: fixed; inset: 0; display: grid; place-items: center; background: #11161b; transition: opacity .35s; z-index: 1; }
+  #splash img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 8px 30px #0008; }
+  #splash p { color: #8d97a3; font: 600 13px -apple-system, system-ui, sans-serif; margin-top: 14px; text-align: center; }
+  #splash.gone { opacity: 0; pointer-events: none; }
+  iframe { flex: 1; width: 100%; border: 0; display: block; background: #eef0f3; }
+  #setup { color: #fff; font: 15px/1.5 -apple-system, system-ui, sans-serif; padding: 40px 24px; display: none; }
+  #setup code { background: #ffffff1a; padding: 2px 6px; border-radius: 6px; }
+</style>
+</head>
+<body>
+  <div id="splash"><div style="text-align:center"><img src="apple-touch-icon.png" alt=""><p id="msg">Loading today's board…</p></div></div>
+  <div id="setup"><b>Almost there.</b><br>Open <code>index.html</code> on GitHub and paste your Apps Script web-app link (it ends in <code>/exec</code>) where it says <code>PASTE_YOUR_EXEC_LINK_HERE</code>.</div>
+  <script>
+    var url = window.MOONSHOT_URL, splash = document.getElementById('splash');
+    if (!/^https:\/\/script\.google\.com\/.+\/exec/.test(url)) {
+      splash.classList.add('gone'); document.getElementById('setup').style.display = 'block';
+    } else {
+      var f = document.createElement('iframe');
+      f.title = 'NBA Moonshot'; f.allow = 'clipboard-write';
+      f.onload = function () { setTimeout(function () { splash.classList.add('gone'); }, 250); };
+      f.src = url; document.body.appendChild(f);
+      // If Google is slow, say so instead of looking frozen.
+      setTimeout(function () { document.getElementById('msg').textContent = 'Still loading — Google can take a few seconds…'; }, 6000);
+      // Coming back to the app after a long time away: reload so the board is today's.
+      var hidden = 0;
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'hidden') hidden = Date.now();
+        else if (hidden && Date.now() - hidden > 30 * 60 * 1000) { splash.classList.remove('gone'); f.src = url; }
+      });
+    }
+  </script>
+</body>
+</html>
