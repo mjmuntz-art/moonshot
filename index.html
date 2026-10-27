@@ -1,53 +1,363 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
 <!-- ▼▼ Paste your Apps Script web-app link (ends in /exec) between the quotes ▼▼ -->
 <script>window.MOONSHOT_URL = 'https://script.google.com/macros/s/AKfycbxnQRWf_pdsaMfmqnXi94I32U8D9bIDPjobU47DutlzhmnL-yy2IcCZpryF9osiyAx1KQ/exec';</script>
 <!-- ▲▲ That is the only line you ever need to change ▲▲ -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Moonshot</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Moonshot">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#11161b">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="manifest" href="manifest.webmanifest">
+<meta charset="utf-8">
+<meta name="theme-color" content="#11161b">
+<title>Moonshot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  html, body { margin: 0; height: 100%; background: #11161b; overflow: hidden; }
-  body { padding-top: env(safe-area-inset-top); box-sizing: border-box; display: flex; flex-direction: column; }
-  #splash { position: fixed; inset: 0; display: grid; place-items: center; background: #11161b; transition: opacity .35s; z-index: 1; }
-  #splash img { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 8px 30px #0008; }
-  #splash p { color: #8d97a3; font: 600 13px -apple-system, system-ui, sans-serif; margin-top: 14px; text-align: center; }
-  #splash.gone { opacity: 0; pointer-events: none; }
-  iframe { flex: 1; width: 100%; border: 0; display: block; background: #eef0f3; }
-  #setup { color: #fff; font: 15px/1.5 -apple-system, system-ui, sans-serif; padding: 40px 24px; display: none; }
-  #setup code { background: #ffffff1a; padding: 2px 6px; border-radius: 6px; }
+:root{--ink:#151a20;--muted:#667183;--page:#eef0f3;--card:#fff;--line:#e3e7ec;--green:#218351;--green-bg:#e3f3ea;--red:#c2483f;--red-bg:#fbe9e7;--gold:#f1ce50;--off:#2a6fdb;--w5:#0e9384;--lad:#7a4cc2;--lw:#c2417a;--me:#d9771c;--cond:'Barlow Condensed','Arial Narrow',Impact,sans-serif;--body:'DM Sans',Arial,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:14px/1.45 var(--body);-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #a38213;outline-offset:3px}
+.wrap{width:min(1000px,calc(100% - 32px));margin:auto}
+header{background:#11161b;color:#fff;padding-top:env(safe-area-inset-top)}
+.mast{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding:22px 0 16px;flex-wrap:wrap}
+.brand h1{font:800 46px/.95 var(--cond);letter-spacing:-1.2px;margin:0}.brand h1 span{color:var(--gold)}
+.brand .date{font-size:13px;color:#c2c8d0;margin-top:6px}
+.season{display:flex;gap:18px;flex-wrap:wrap}.season div{text-align:right}.season strong{font:700 24px/1 var(--cond);display:block}.season small{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#a9b1bc;white-space:nowrap}
+.season .t-off small{color:#8fb4f0}.season .t-w5 small{color:#6fd1c3}.season .t-lad small{color:#c1a6ec}.season .t-lw small{color:#f08fb8}.season .t-me small{color:#f0b47a}
+.pos{color:var(--green)}.neg{color:var(--red)}header .pos{color:#6fd3a3}header .neg{color:#ff8a80}
+nav{border-top:1px solid #ffffff14}nav .wrap{display:flex;gap:6px;align-items:center}
+nav button{background:none;border:0;border-bottom:3px solid transparent;color:#aab2bc;padding:12px 10px 9px;font-weight:700;font-size:13px}
+nav button.on{color:#fff;border-color:var(--gold)}
+.status{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:11px;color:#aab2bc}
+.dot{width:8px;height:8px;border-radius:50%;background:#7b8592}.dot.live{background:#4ed38f;box-shadow:0 0 0 3px #4ed38f33}.dot.busy{background:var(--gold);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.refresh{background:#ffffff14;border:1px solid #ffffff2a;color:#fff;border-radius:16px;padding:5px 11px;font-size:11px;font-weight:700}
+main{padding:22px 0 50px}
+.banner{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:10px;padding:14px 16px;margin-bottom:22px;font-size:14px}
+.banner b{font-size:15px}.banner .sub{color:var(--muted);font-size:12px;margin-top:5px}
+h2{font:800 30px/1 var(--cond);letter-spacing:-.4px;margin:30px 0 4px}h2:first-child{margin-top:0}
+.h2sub{color:var(--muted);font-size:12px;margin:0 0 12px}
+.track{display:flex;align-items:center;gap:8px;font:700 13px var(--body);letter-spacing:.6px;text-transform:uppercase;margin:22px 0 9px}
+.track i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.track .note{font:500 12px var(--body);text-transform:none;letter-spacing:0;color:var(--muted);margin-left:auto;text-align:right}
+.picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
+.pick{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;display:grid;grid-template-columns:54px 1fr auto;gap:4px 12px;align-items:center;border-top:4px solid var(--c)}
+.avw{position:relative;width:54px;height:54px;grid-row:span 2}
+.av{width:54px;height:54px;border-radius:50%;background:linear-gradient(160deg,#f3f5f8,#dfe4ea);display:grid;place-items:center;overflow:hidden;font:700 17px var(--cond);color:#5b6675;position:relative;box-shadow:inset 0 0 0 2px var(--tc,#d5dbe2)}
+.av img.hs{width:74px;position:absolute;top:3px;left:50%;transform:translateX(-50%)}
+.av img.big{width:36px;height:36px;object-fit:contain}
+.tl{position:absolute;right:-4px;bottom:-3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;display:grid;place-items:center}
+.tl img{width:19px;height:19px;object-fit:contain}
+.mini{width:15px;height:15px;object-fit:contain;vertical-align:-3px;margin-right:3px}
+.tav{width:28px;height:28px;border-radius:50%;background:#eef1f4;overflow:hidden;display:inline-block;vertical-align:middle;margin-right:7px;position:relative}
+.tav img{width:38px;position:absolute;left:50%;top:2px;transform:translateX(-50%)}
+.who b{font-size:15px;display:block;line-height:1.2}.who span{font-size:12px;color:var(--muted)}
+.line{text-align:right}.line strong{font:800 26px/1 var(--cond);display:block}.line small{font-size:11px;color:var(--muted)}
+.meta{grid-column:2 / span 2;display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.chip{font-size:11px;font-weight:700;border-radius:20px;padding:3px 9px;background:#f0f2f5;color:#4b5563;white-space:nowrap}
+.chip.hit{background:var(--green-bg);color:var(--green)}.chip.miss{background:var(--red-bg);color:var(--red)}.chip.lock{background:#e8effd;color:var(--off)}.chip.wait{background:#fff6d6;color:#8a6a00}
+.empty{background:var(--card);border:1px dashed #cdd4dc;border-radius:12px;padding:16px;color:var(--muted);font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;border-top:4px solid var(--c)}
+.kpi small{font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.kpi strong{font:800 34px/1.05 var(--cond);display:block;margin:6px 0 4px}.kpi p{margin:0;font-size:12px;color:var(--muted)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:12px}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-bottom:6px;flex-wrap:wrap}.legend i{display:inline-block;width:14px;height:3px;border-radius:2px;vertical-align:middle;margin-right:5px}
+svg.chart{width:100%;height:auto;display:block}
+.days{display:flex;flex-direction:column;gap:8px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.dayhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}.dayhead b{font:700 18px var(--cond)}.dayhead span{font-size:12px;color:var(--muted)}
+.dayrow{display:grid;grid-template-columns:110px 1fr 82px;gap:10px;padding:5px 0;border-top:1px solid #f0f2f5;font-size:13px;align-items:baseline}
+.dayrow .lbl{font-weight:700;font-size:12px}.dayrow .usd{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.fbtn{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:5px 12px;font-size:12px;font-weight:700;color:#4b5563}.fbtn.on{background:#11161b;color:#fff;border-color:#11161b}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:13px}
+th{text-align:left;font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);padding:9px 10px;background:#f7f8fa;border-bottom:1px solid var(--line)}
+td{padding:8px 10px;border-bottom:1px solid #f0f2f5;vertical-align:middle}td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tdot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:#11161b;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;max-width:90%;z-index:9}.hidden{display:none}
+.foot{color:var(--muted);font-size:11px;margin-top:30px}
+@media(max-width:700px){.mast{padding-top:16px}.brand h1{font-size:38px}.season{width:100%;justify-content:space-between;gap:10px}.season div{text-align:left}.season strong{font-size:18px}.season small{font-size:8px;letter-spacing:.4px}
+.kpis{grid-template-columns:1fr 1fr}.kpi{padding:12px}.kpi strong{font-size:26px}.kpi p{font-size:11px}.status .txt{display:none}.dayrow{grid-template-columns:76px 1fr 70px}
+.hide-sm{display:none}td,th{padding:7px 6px}}
 </style>
 </head>
 <body>
-  <div id="splash"><div style="text-align:center"><img src="apple-touch-icon.png" alt=""><p id="msg">Loading today's board…</p></div></div>
-  <div id="setup"><b>Almost there.</b><br>Open <code>index.html</code> on GitHub and paste your Apps Script web-app link (it ends in <code>/exec</code>) where it says <code>PASTE_YOUR_EXEC_LINK_HERE</code>.</div>
-  <script>
-    var url = window.MOONSHOT_URL, splash = document.getElementById('splash');
-    if (!/^https:\/\/script\.google\.com\/.+\/exec/.test(url)) {
-      splash.classList.add('gone'); document.getElementById('setup').style.display = 'block';
-    } else {
-      var f = document.createElement('iframe');
-      f.title = 'NBA Moonshot'; f.allow = 'clipboard-write';
-      f.onload = function () { setTimeout(function () { splash.classList.add('gone'); }, 250); };
-      f.src = url; document.body.appendChild(f);
-      // If Google is slow, say so instead of looking frozen.
-      setTimeout(function () { document.getElementById('msg').textContent = 'Still loading — Google can take a few seconds…'; }, 6000);
-      // Coming back to the app after a long time away: reload so the board is today's.
-      var hidden = 0;
-      document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'hidden') hidden = Date.now();
-        else if (hidden && Date.now() - hidden > 30 * 60 * 1000) { splash.classList.remove('gone'); f.src = url; }
-      });
-    }
-  </script>
+<header>
+  <div class="wrap mast">
+    <div class="brand"><h1>Moonshot<span>.</span></h1><div class="date" id="date"></div></div>
+    <div class="season" id="season"></div>
+  </div>
+  <nav><div class="wrap">
+    <button data-view="today" class="on">Today's picks</button>
+    <button data-view="results">Results</button>
+    <div class="status"><span class="dot" id="dot"></span><span class="txt" id="stamp">Loading…</span><button class="refresh" id="refresh">↻</button></div>
+  </div></nav>
+</header>
+<main class="wrap" id="main"><div class="empty">Loading today's board from the sheet…</div></main>
+<div class="toast hidden" id="toast"></div>
+<script>
+'use strict';
+var D = null, view = 'today', legFilter = 'all', loadedAt = 0, busy = false;
+var TR = { off: { name: 'Official 5+ card', short: 'Official', c: 'var(--off)', hex: '#2a6fdb', key: 'official' }, w5: { name: '5+ window', short: '5+ window', c: 'var(--w5)', hex: '#0e9384', key: 'five_window' },
+  lad: { name: 'Ladder challenger', short: 'Ladder', c: 'var(--lad)', hex: '#7a4cc2', key: 'ladder' }, lw: { name: 'Ladder window', short: 'Ladder win.', c: 'var(--lw)', hex: '#c2417a', key: 'ladder_window' },
+  me: { name: 'My picks', short: 'My picks', c: 'var(--me)', hex: '#d9771c', key: 'my_picks' } };
+var ORDER = ['off', 'w5', 'lad', 'lw', 'me'], WTRACK = { w5: '5+ WINDOW', lw: 'LADDER WINDOW' };
+var el = function (id) { return document.getElementById(id); };
+var esc = function (v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+var num = function (v) { return v !== '' && v != null && isFinite(Number(v)); };
+var odds = function (v) { return num(v) ? (Number(v) > 0 ? '+' : '') + Math.round(Number(v)) : '—'; };
+var pct = function (v) { return num(v) ? (Number(v) * 100).toFixed(1) + '%' : '—'; };
+var money = function (v) { if (!num(v)) return '—'; var n = Number(v); return (n > 0 ? '+' : n < 0 ? '−' : '') + '$' + Math.abs(n).toFixed(2); };
+var cls = function (v) { return !num(v) || Number(v) === 0 ? '' : Number(v) > 0 ? 'pos' : 'neg'; };
+var bookName = function (b) { return { fanduel: 'FanDuel', draftkings: 'DraftKings', betmgm: 'BetMGM', fd: 'FanDuel', dk: 'DraftKings' }[String(b).toLowerCase()] || b || ''; };
+var dayLabel = function (d, long) { if (!d) return ''; return new Date(d + 'T12:00:00Z').toLocaleDateString('en-US', long ? { weekday: 'long', month: 'long', day: 'numeric' } : { weekday: 'short', month: 'short', day: 'numeric' }); };
+var timeCT = function (iso) { return iso ? new Date(iso).toLocaleTimeString('en-US', { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit' }) + ' CT' : ''; };
+var decOf = function (o) { o = Number(o); return o > 0 ? 1 + o / 100 : 1 + 100 / -o; };
+
+/* ---------- data ---------- */
+function gotData(r, quiet) {
+  busy = false; D = r; loadedAt = Date.now();
+  try { localStorage.setItem('moonshot-cache', JSON.stringify(r)); } catch (e) {}
+  el('dot').className = 'dot live'; render(); if (!quiet) toast('Updated from the sheet');
+}
+function failed(msg, help) {
+  busy = false; el('dot').className = 'dot'; el('stamp').textContent = 'Could not reach the sheet';
+  if (!D) el('main').innerHTML = '<div class="banner" style="border-left-color:var(--red)"><b>Couldn\'t load the board.</b><div class="sub">' + esc(msg) + '</div>' + (help ? '<div class="sub" style="color:var(--ink)">' + help + '</div>' : '') + '</div>';
+  else toast('Refresh failed: ' + msg);
+}
+var ACCESS_HELP = 'In Apps Script: <b>Deploy → Manage deployments → pencil</b>, set <b>Execute as: Me</b> and <b>Who has access: Anyone</b>, choose <b>New version</b>, then Deploy. Make sure the link in index.html is that deployment\'s <b>/exec</b> link.';
+function load(quiet) {
+  if (busy) return; busy = true; el('dot').className = 'dot busy';
+  // Home-screen app (GitHub page): fetch the data straight from the Apps Script web app.
+  if (window.MOONSHOT_URL) {
+    if (!/^https:\/\/script\.google\.com\/.+\/exec/.test(window.MOONSHOT_URL)) return failed('The Apps Script link in index.html is missing or not an /exec link.', 'Open index.html on GitHub and paste your web-app link (ends in /exec) on line 5.');
+    var done = false, timer = setTimeout(function () { if (!done) { done = true; failed('Google did not answer within 25 seconds.', 'Check your connection and tap ↻. If it keeps happening: ' + ACCESS_HELP); } }, 25000);
+    fetch(window.MOONSHOT_URL + (window.MOONSHOT_URL.indexOf('?') < 0 ? '?' : '&') + 'api=1&t=' + Date.now(), { redirect: 'follow', cache: 'no-store' })
+      .then(function (res) { return res.text(); })
+      .then(function (txt) {
+        if (done) return; done = true; clearTimeout(timer);
+        var r; try { r = JSON.parse(txt); } catch (e) { return failed('Google sent a web page instead of data — usually a sign-in page or an old version.', ACCESS_HELP); }
+        if (r && r.error) return failed('The script reported: ' + r.error, 'Run DAILY 3 once from the sheet menu, then tap ↻.');
+        gotData(r, quiet);
+      })
+      .catch(function (e) { if (done) return; done = true; clearTimeout(timer); failed('Google blocked the request (' + (e && e.message ? e.message : 'network error') + ').', ACCESS_HELP); });
+    return;
+  }
+  if (!(window.google && google.script && google.script.run)) { busy = false; toast('Open this page from the web-app link to load live data.'); return; }
+  google.script.run.withSuccessHandler(function (r) { gotData(r, quiet); }).withFailureHandler(function (e) { failed(e && e.message ? e.message : 'unknown error'); }).moonshotGetDashboard();
+}
+function stale() { return Date.now() - loadedAt > 60 * 1000; }
+
+/* ---------- helpers ---------- */
+var TEAM_ID = { ATL: 1610612737, BOS: 1610612738, BKN: 1610612751, CHA: 1610612766, CHI: 1610612741, CLE: 1610612739, DAL: 1610612742, DEN: 1610612743, DET: 1610612765, GSW: 1610612744, HOU: 1610612745, IND: 1610612754, LAC: 1610612746, LAL: 1610612747, MEM: 1610612763, MIA: 1610612748, MIL: 1610612749, MIN: 1610612750, NOP: 1610612740, NYK: 1610612752, OKC: 1610612760, ORL: 1610612753, PHI: 1610612755, PHX: 1610612756, POR: 1610612757, SAC: 1610612758, SAS: 1610612759, TOR: 1610612761, UTA: 1610612762, WAS: 1610612764 };
+var TEAM_COLOR = { ATL: '#cf343f', BOS: '#188054', BKN: '#252b32', CHA: '#352377', CHI: '#cc1745', CLE: '#8d2048', DAL: '#2770aa', DEN: '#24456a', DET: '#cf2445', GSW: '#2c66b6', HOU: '#bf203c', IND: '#caa542', LAC: '#c02d3b', LAL: '#643e94', MEM: '#6582ae', MIA: '#a8123f', MIL: '#346c4c', MIN: '#315777', NOP: '#8c7043', NYK: '#e17534', OKC: '#347bb7', ORL: '#2781c1', PHI: '#2470aa', PHX: '#7d4b9c', POR: '#d73c48', SAC: '#744d94', SAS: '#58636d', TOR: '#c63c4f', UTA: '#4d3b8d', WAS: '#274c79' };
+var IDS = {};
+var nkey = function (n) { return String(n || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\b(jr|sr|ii|iii|iv)\b/g, '').replace(/[^a-z]/g, ''); };
+function indexIds() {
+  IDS = {};
+  var add = function (name, id) { if (name && id && /^\d+$/.test(String(id))) IDS[nkey(name)] = String(id); };
+  (D.board.picks || []).forEach(function (r) { add(r.player, r.nba_player_id); }); (D.ladder.picks || []).forEach(function (r) { add(r.player, r.nba_player_id); });
+  (D.locked || []).forEach(function (r) { add(r.player, r.player_id); }); (D.officialLegs || []).forEach(function (r) { add(r.player, r.nba_player_id); });
+  (D.ladderLegs || []).concat(D.windowLegs || [], D.windowPicks || [], D.myLog || []).forEach(function (r) { add(r.player, r.nba_player_id); });
+}
+function idFor(id, name) { return id && /^\d+$/.test(String(id)) ? String(id) : IDS[nkey(name)] || ''; }
+function logo(team, cls) { var t = TEAM_ID[String(team || '').toUpperCase()]; return t ? '<img class="' + (cls || '') + '" alt="' + esc(team) + '" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" src="https://cdn.nba.com/logos/nba/' + t + '/primary/L/logo.svg">' : ''; }
+function headshot(id, name, team) {
+  var ini = String(name || '?').split(' ').map(function (w) { return w[0]; }).slice(0, 2).join(''), pid = idFor(id, name), tc = TEAM_COLOR[String(team || '').toUpperCase()];
+  var inner = pid ? '<img class="hs" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" src="https://cdn.nba.com/headshots/nba/latest/260x190/' + encodeURIComponent(pid) + '.png">' : team ? logo(team, 'big') : '';
+  return '<div class="avw"><div class="av" style="' + (tc ? '--tc:' + tc : '') + '">' + esc(ini) + inner + '</div>' + (pid && team && TEAM_ID[String(team).toUpperCase()] ? '<div class="tl">' + logo(team) + '</div>' : '') + '</div>';
+}
+function tinyHead(id, name) { var pid = idFor(id, name); return '<span class="tav">' + (pid ? '<img alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()" src="https://cdn.nba.com/headshots/nba/latest/260x190/' + encodeURIComponent(pid) + '.png">' : '') + '</span>'; }
+function pickCard(t, p) {
+  var chips = (p.chips || []).map(function (c) { return '<span class="chip ' + (c[1] || '') + '">' + esc(c[0]) + '</span>'; }).join('');
+  var match = p.team && p.opp ? logo(p.team, 'mini') + esc(p.team) + ' vs ' + logo(p.opp, 'mini') + esc(p.opp) : p.team ? logo(p.team, 'mini') + esc(p.team) : '';
+  return '<div class="pick" style="--c:' + TR[t].c + '">' + headshot(p.id, p.player, p.team) +
+    '<div class="who"><b>' + esc(p.player) + '</b><span>' + match + (p.tip ? ' · ' + esc(String(p.tip).replace(' CT', '')) : '') + '</span></div>' +
+    '<div class="line"><strong>' + esc(p.threshold) + '+</strong><small>' + odds(p.odds) + (p.book ? ' · ' + esc(bookName(p.book)) : '') + '</small></div>' +
+    '<div class="meta">' + (num(p.model) ? '<span class="chip">model ' + pct(p.model) + ' vs book ' + pct(p.implied) + '</span>' : '') + chips + '</div></div>';
+}
+function trackHead(t, note) { return '<div class="track"><i style="background:' + TR[t].c + '"></i>' + TR[t].name + (note ? '<span class="note">' + note + '</span>' : '') + '</div>'; }
+function resultChip(status, hit, made) {
+  if (status === 'VOID' || /VOID/.test(String(status))) return ['VOID · did not play', ''];
+  if (hit === 1 || hit === '1' || status === 'HIT') return ['HIT' + (num(made) ? ' · made ' + made : ''), 'hit'];
+  if (hit === 0 || hit === '0' || status === 'MISS') return ['MISS' + (num(made) ? ' · made ' + made : ''), 'miss'];
+  return ['Result pending', 'wait'];
+}
+
+/* ---------- graded legs, all three tracks ---------- */
+function allLegs() {
+  var P = D.plan || { straight: 5 }, out = [], team = {};
+  (D.locked || []).forEach(function (r) { team[r.date + '|' + r.player_id] = [r.team, r.opponent]; });
+  (D.officialLegs || []).forEach(function (r) {
+    if (r.result_status !== 'FINAL' && r.result_status !== 'VOID') return;
+    var tm = team[r.date + '|' + r.nba_player_id] || [], hit = Number(r.hit);
+    out.push({ t: 'off', date: r.date, player: r.player, id: r.nba_player_id, team: tm[0], opp: tm[1], threshold: 5, odds: r.american_odds, book: r.book, made: r.three_pm, status: r.result_status, hit: r.result_status === 'VOID' ? '' : hit,
+      usd: r.result_status === 'VOID' ? 0 : hit ? P.straight * (decOf(r.american_odds) - 1) : -P.straight });
+  });
+  (D.ladderLegs || []).forEach(function (r) {
+    if (r.result_status !== 'FINAL' && r.result_status !== 'VOID') return;
+    var hit = Number(r.hit);
+    out.push({ t: 'lad', date: r.date, player: r.player, id: r.nba_player_id, team: r.team, opp: r.opponent, threshold: r.threshold, odds: r.american_odds, book: r.book, made: r.three_pm, status: r.result_status, hit: r.result_status === 'VOID' ? '' : hit,
+      usd: r.result_status === 'VOID' ? 0 : hit ? P.straight * (decOf(r.american_odds) - 1) : -P.straight });
+  });
+  (D.windowLegs || []).forEach(function (r) {
+    if (r.result_status !== 'FINAL' && r.result_status !== 'VOID') return;
+    var hit = Number(r.hit), t = r.track === '5+ WINDOW' ? 'w5' : 'lw';
+    out.push({ t: t, date: r.date, player: r.player, id: r.nba_player_id, team: r.team, opp: r.opponent, threshold: r.threshold, odds: r.american_odds, book: r.book, made: r.three_pm, status: r.result_status, hit: r.result_status === 'VOID' ? '' : hit,
+      usd: r.result_status === 'VOID' ? 0 : hit ? P.straight * (decOf(r.american_odds) - 1) : -P.straight });
+  });
+  (D.mine || []).forEach(function (r) {
+    if (['HIT', 'MISS'].indexOf(r.result) < 0 && !/VOID/.test(String(r.result))) return;
+    out.push({ t: 'me', date: r.date, player: r.player, team: r.team, opp: r.opponent, threshold: parseInt(r.threshold, 10), odds: r.american_odds, book: r.book, made: r.three_pm, status: r.result, hit: r.result === 'HIT' ? 1 : r.result === 'MISS' ? 0 : '',
+      usd: num(r.straight_net_usd) ? Number(r.straight_net_usd) : 0, late: /LATE/.test(String(r.status)) });
+  });
+  return out.sort(function (a, b) { return b.date < a.date ? -1 : b.date > a.date ? 1 : 0; });
+}
+
+/* ---------- header ---------- */
+function renderHeader() {
+  el('date').textContent = dayLabel(D.today, true);
+  var s = (D.results || []).filter(function (r) { return r.date === 'SEASON'; })[0] || {};
+  el('season').innerHTML = ORDER.map(function (k) { var v = s[TR[k].key + '_usd'];
+    return '<div class="t-' + k + '"><strong class="' + cls(v) + '">' + money(num(v) ? v : 0) + '</strong><small>' + TR[k].short + '</small></div>';
+  }).join('');
+  el('stamp').textContent = 'Updated ' + timeCT(D.now) + ' · refreshes automatically';
+  document.querySelectorAll('nav [data-view]').forEach(function (b) { b.classList.toggle('on', b.dataset.view === view); });
+}
+
+/* ---------- TODAY ---------- */
+function todayView() {
+  var t = D.today, live = D.board.date === t, dec = (D.decisions || []).filter(function (r) { return r.date === t; })[0];
+  var autoTime = (String(D.autopilot).match(/DAILY 1 at ([0-9:]+ [AP]M)/) || [])[1], lockTime = (String(D.autopilot).match(/auto-lock at ([0-9:]+ [AP]M)/) || [])[1];
+  var h = '';
+  // Banner
+  if (D.pull && Number(D.pull.games) === 0) h += '<div class="banner"><b>No NBA games today.</b><div class="sub">The last graded night is below.</div></div>';
+  else if (!live) h += '<div class="banner"><b>Today\'s picks aren\'t out yet.</b> ' + (autoTime ? 'Autopilot runs DAILY 1 at <b>' + esc(autoTime) + ' CT</b>.' : D.pull ? 'DAILY 1 window: ' + esc(D.pull.daily1_opens_ct) + ' – ' + esc(D.pull.daily1_closes_ct) + ' CT.' : '') +
+    '<div class="sub">' + (D.pull ? esc(D.pull.games) + ' games · first tip ' + esc(D.pull.first_tip_ct) + ' CT. ' : '') + 'This page updates itself — leave it open or come back after the pull.</div></div>';
+  else h += '<div class="banner"><b>' + (dec ? (dec.decision === 'LOCKED' ? 'Official card locked at ' + timeCT(dec.locked_utc) : 'Official decision: ' + dec.decision) : 'Board is out · ' + (lockTime ? 'auto-lock at ' + esc(lockTime) + ' CT' : 'lock before the first tip')) + '</b>' +
+    '<div class="sub">Board pulled ' + timeCT(D.board.snapshot) + (D.pull ? ' · first tip ' + esc(D.pull.first_tip_ct) + ' CT' : '') + '. Paper trial — no real wagers.</div></div>';
+
+  h += '<h2>Today\'s picks</h2><p class="h2sub">' + dayLabel(t) + ' · all three tracks on one page</p>';
+  // Official
+  h += trackHead('off', live ? '5+ threes · +300 to +700' : '');
+  if (!live) h += '<div class="empty">Waiting for today\'s board.</div>';
+  else {
+    var lockedToday = (D.locked || []).filter(function (r) { return r.date === t; });
+    var list = dec && dec.decision === 'LOCKED' ? lockedToday.map(function (r) { return { id: r.player_id, player: r.player, team: r.team, opp: r.opponent, threshold: 5, odds: r.american_odds, book: r.book, model: r.model_probability, implied: r.implied_p, chips: [['Locked', 'lock'], ['Result tomorrow morning', 'wait']] }; })
+      : D.board.picks.map(function (r) { return { id: r.nba_player_id, player: r.player, team: r.team, opp: r.opponent, tip: timeCT(r.tipoff_utc), threshold: 5, odds: r.american_odds, book: r.book, model: r.calibrated_probability, implied: r.implied_probability, chips: [['Suggested · not locked yet', 'wait']] }; });
+    h += dec && dec.decision === 'NO BET' ? '<div class="empty"><b>No bet today.</b> Nothing met the trial rules (+300 to +700, 3-point edge).</div>'
+      : list.length ? '<div class="picks">' + list.map(function (p) { return pickCard('off', p); }).join('') + '</div>' : '<div class="empty">No leg qualified on today\'s board.</div>';
+  }
+  // Ladder
+  h += trackHead('lad', D.ladder.date === t ? 'best rung per player · recorded automatically' : '');
+  var lp = D.ladder.date === t ? D.ladder.picks : [];
+  h += D.ladder.date !== t ? '<div class="empty">Waiting for today\'s board.</div>' : lp.length ? '<div class="picks">' + lp.map(function (r) {
+    return pickCard('lad', { id: r.nba_player_id, player: r.player, team: r.team, opp: r.opponent, tip: timeCT(r.tipoff_utc), threshold: parseInt(r.play_at, 10), odds: r.american_odds, book: r.book, model: r.model_p, implied: r.implied_p, chips: [['Recorded', 'lock']] });
+  }).join('') + '</div>' : '<div class="empty">No rung qualified today.</div>';
+  // Window tests
+  ['w5', 'lw'].forEach(function (k) {
+    var wp = (D.windowPicks || []).filter(function (r) { return r.date === t && r.track === WTRACK[k]; }), legs = wp.filter(function (r) { return Number(r.rank) > 0; });
+    var par = legs.length > 1 && num(legs[0].parlay_american) ? 'full parlay ' + odds(legs[0].parlay_american) : '';
+    h += trackHead(k, wp.length ? (par || (k === 'w5' ? '5+ only · parlay window +10,000 to +18,000' : 'high-usage shooters · parlay window +10,000 to +18,000')) : '');
+    h += !wp.length ? '<div class="empty">' + (t < '2026-10-27' ? 'Starts Oct 27.' : 'Waiting for today\'s board.') + '</div>' : legs.length ? '<div class="picks">' + legs.map(function (r) {
+      return pickCard(k, { id: r.nba_player_id, player: r.player, team: r.team, opp: r.opponent, threshold: r.threshold, odds: r.american_odds, book: r.book, model: r.model_p, implied: r.implied_p, chips: [['Recorded', 'lock']] });
+    }).join('') + '</div>' + (legs.length < 3 && legs.length ? '<div class="h2sub" style="margin-top:6px">' + esc(legs[0].note || '') + '</div>' : '') : '<div class="empty">Nothing qualified today.</div>';
+  });
+  // Mine
+  var mine = (D.mine || []).filter(function (r) { return r.date === t && r.player; });
+  h += trackHead('me', 'type picks on the MY PICKS tab before tip-off');
+  h += mine.length ? '<div class="picks">' + mine.map(function (r) {
+    var logged = /^LOGGED/.test(String(r.status)), late = /LATE/.test(String(r.status));
+    return pickCard('me', { player: r.player, team: r.team, opp: r.opponent, threshold: parseInt(r.threshold, 10), odds: r.american_odds, book: r.book,
+      chips: [logged ? (late ? ['Logged late', 'miss'] : ['Logged pregame', 'lock']) : ['Not logged — check the sheet', 'miss']].concat(r.result ? [resultChip(r.result, '', r.three_pm)] : []) });
+  }).join('') + '</div>' : '<div class="empty">No picks of your own entered for today yet.</div>';
+
+  // Last graded night
+  var legs = allLegs(), last = legs.length ? legs[0].date : '';
+  if (last) {
+    var day = legs.filter(function (l) { return l.date === last; }), row = (D.results || []).filter(function (r) { return r.date === last; })[0] || {};
+    h += '<h2>Last graded night</h2><p class="h2sub">' + dayLabel(last) + ' · results come in each morning around 8 AM</p>';
+    ORDER.forEach(function (k) {
+      var ls = day.filter(function (l) { return l.t === k; }), usd = row[TR[k].key + '_usd'];
+      h += trackHead(k, num(usd) ? '<b class="' + cls(usd) + '">' + money(usd) + '</b> on your plan' : '');
+      h += ls.length ? '<div class="picks">' + ls.map(function (l) { return pickCard(k, { id: l.id, player: l.player, team: l.team, opp: l.opp, threshold: l.threshold, odds: l.odds, book: l.book, chips: [resultChip(l.status, l.hit, l.made)].concat(l.late ? [['logged late', '']] : []) }); }).join('') + '</div>'
+        : '<div class="empty">' + (k === 'off' && /No bet/i.test(String(row.official)) ? 'No bet — nothing qualified.' : 'No picks.') + '</div>';
+    });
+  }
+  return h;
+}
+
+/* ---------- RESULTS ---------- */
+function chart(days) {
+  if (days.length < 1) return '<div class="empty">The chart starts after the first graded day.</div>';
+  var keys = ORDER.map(function (k) { return [k, TR[k].key + '_total_usd']; }), all = [0];
+  days.forEach(function (d) { keys.forEach(function (k) { if (num(d[k[1]])) all.push(Number(d[k[1]])); }); });
+  var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all), pad = Math.max(10, (hi - lo) * 0.12); lo -= pad; hi += pad;
+  var sm = window.innerWidth < 600, W = sm ? 360 : 640, H = sm ? 230 : 220, L = sm ? 44 : 52, R = 12, T = 12, B = 30, n = days.length;
+  var x = function (i) { return n === 1 ? (L + W - R) / 2 : L + i * (W - L - R) / (n - 1); }, y = function (v) { return T + (hi - v) / (hi - lo) * (H - T - B); };
+  var ticks = [lo + pad, 0, hi - pad].filter(function (v, i, a) { return a.indexOf(v) === i; });
+  var s = '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Running profit by day for each track">';
+  ticks.forEach(function (v) { s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="' + (v === 0 ? '#9aa4b1' : '#e7ebef') + '"' + (v === 0 ? ' stroke-dasharray="4 4"' : '') + '/><text x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="' + (sm ? 12 : 11) + '" fill="#7b8795">' + (v < 0 ? '−' : '') + '$' + Math.abs(Math.round(v)) + '</text>'; });
+  var step = Math.ceil(n / (sm ? 4 : 8));
+  days.forEach(function (d, i) { if (i % step === 0 || i === n - 1) s += '<text x="' + x(i) + '" y="' + (H - 8) + '" text-anchor="' + (n > 1 && i === n - 1 ? 'end' : n > 1 && i === 0 ? 'start' : 'middle') + '" font-size="' + (sm ? 12 : 11) + '" fill="#7b8795">' + esc(dayLabel(d.date).replace(/^\w+, /, '')) + '</text>'; });
+  keys.forEach(function (k) {
+    var pts = days.map(function (d, i) { return num(d[k[1]]) && !(k[0] === 'w5' || k[0] === 'lw') || (num(d[k[1]]) && d.date >= '2026-10-27') ? x(i) + ',' + y(Number(d[k[1]])) : null; }).filter(Boolean);
+    if (!pts.length) return;
+    s += '<polyline points="' + pts.join(' ') + '" fill="none" stroke="' + TR[k[0]].hex + '" stroke-width="2.5" stroke-linejoin="round"/>';
+    var lastI = days.length - 1; if (pts.length && num(days[lastI][k[1]])) s += '<circle cx="' + x(lastI) + '" cy="' + y(Number(days[lastI][k[1]])) + '" r="4" fill="' + TR[k[0]].hex + '"><title>' + TR[k[0]].short + ': ' + money(days[lastI][k[1]]) + '</title></circle>';
+  });
+  return s + '</svg>';
+}
+function resultsView() {
+  var rs = D.results || [], season = rs.filter(function (r) { return r.date === 'SEASON'; })[0] || {}, days = rs.filter(function (r) { return r.date !== 'SEASON'; });
+  var legs = allLegs(), h = '<h2>Results</h2><p class="h2sub">Five tracks on the same plan: $' + D.plan.straight + ' straights · $' + D.plan.rr + ' round robin · $' + D.plan.parlay + ' parlay. Graded every morning.</p>';
+  h += '<div class="kpis">' + ORDER.map(function (k) { return [k, season[TR[k].key + '_usd'], season[TR[k].key]]; }).map(function (k) {
+    var ls = legs.filter(function (l) { return l.t === k[0] && l.hit !== ''; }), hits = ls.filter(function (l) { return l.hit === 1; }).length;
+    return '<div class="kpi" style="--c:' + TR[k[0]].c + '"><small>' + TR[k[0]].name + '</small><strong class="' + cls(k[1]) + '">' + money(num(k[1]) ? k[1] : 0) + '</strong><p>' + esc(k[2] || 'no bets yet') + '</p><p>Picks: <b>' + hits + '–' + (ls.length - hits) + '</b>' + (ls.length ? ' (' + Math.round(hits / ls.length * 100) + '% hit)' : '') + '</p></div>';
+  }).join('') + '</div>';
+  h += '<div class="panel"><div class="legend">' + ORDER.map(function (k) { return '<span><i style="background:' + TR[k].hex + '"></i>' + TR[k].short + '</span>'; }).join('') + '<span style="margin-left:auto">Running profit</span></div>' + chart(days.slice().reverse()) + '</div>';
+  // Day by day
+  h += '<h2>Day by day</h2><p class="h2sub">Newest first</p><div class="days">' + (days.length ? days.map(function (d) {
+    var line = function (k, txt, usd) { return '<div class="dayrow"><span class="lbl" style="color:' + TR[k].c + '">' + TR[k].short + '</span><span>' + esc(txt) + '</span><span class="usd ' + cls(usd) + '">' + money(usd) + '</span></div>'; };
+    return '<div class="day"><div class="dayhead"><b>' + esc(dayLabel(d.date)) + '</b><span>' + esc(d.best_today ? 'Best: ' + d.best_today : '') + '</span></div>' + ORDER.filter(function (k) { return (k !== 'w5' && k !== 'lw') || d.date >= '2026-10-27'; }).map(function (k) { return line(k, d[TR[k].key], d[TR[k].key + '_usd']); }).join('') + '</div>';
+  }).join('') : '<div class="empty">No graded days yet. DAILY RESULTS fills in each morning.</div>') + '</div>';
+  // Every graded pick
+  var shown = legs.filter(function (l) { return legFilter === 'all' || l.t === legFilter; });
+  h += '<h2>Every graded pick</h2><div class="filters">' + [['all', 'All']].concat(ORDER.map(function (k) { return [k, TR[k].short]; })).map(function (f) {
+    var n = f[0] === 'all' ? legs.length : legs.filter(function (l) { return l.t === f[0]; }).length;
+    return '<button class="fbtn ' + (legFilter === f[0] ? 'on' : '') + '" data-legs="' + f[0] + '">' + f[1] + ' · ' + n + '</button>';
+  }).join('') + '</div>';
+  h += shown.length ? '<table><thead><tr><th>Date</th><th>Pick</th><th class="hide-sm">Odds</th><th>Made</th><th>Result</th><th class="num">$5 straight</th></tr></thead><tbody>' + shown.map(function (l) {
+    var rc = resultChip(l.status, l.hit, '');
+    return '<tr><td>' + esc(dayLabel(l.date).replace(/^\w+, /, '')) + '</td><td><span class="tdot" style="background:' + TR[l.t].hex + '"></span>' + tinyHead(l.id, l.player) + '<b>' + esc(l.player) + '</b> ' + esc(l.threshold) + '+' + (l.late ? ' <span class="chip">late</span>' : '') + '</td><td class="hide-sm">' + odds(l.odds) + ' ' + esc(bookName(l.book)) + '</td><td>' + esc(l.made) + '</td><td><span class="chip ' + rc[1] + '">' + esc(rc[0].split(' ·')[0]) + '</span></td><td class="num ' + cls(l.usd) + '">' + money(l.usd) + '</td></tr>';
+  }).join('') + '</tbody></table>' : '<div class="empty">Nothing graded yet.</div>';
+  return h;
+}
+
+/* ---------- render ---------- */
+function render() {
+  if (!D) return; indexIds();
+  renderHeader();
+  el('main').innerHTML = (view === 'today' ? todayView() : resultsView()) + '<div class="foot">NBA Moonshot · paper trial Oct 20 – Nov 18, 2026 · reads your sheet, never changes it</div>';
+}
+function toast(s) { var t = el('toast'); t.textContent = s; t.classList.remove('hidden'); clearTimeout(window.__tt); window.__tt = setTimeout(function () { t.classList.add('hidden'); }, 3500); }
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.view) { view = b.dataset.view; render(); window.scrollTo(0, 0); }
+  if (b.dataset.legs) { legFilter = b.dataset.legs; render(); }
+  if (b.id === 'refresh') load(false);
+});
+// Fresh data whenever you come back to the page, every 3 minutes while it's open, and right after midnight.
+document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && stale()) load(true); });
+window.addEventListener('focus', function () { if (stale()) load(true); });
+setInterval(function () { if (document.visibilityState === 'visible') load(true); }, 3 * 60 * 1000);
+try { var c = JSON.parse(localStorage.getItem('moonshot-cache') || 'null'); if (c && c.today) { D = c; render(); el('stamp').textContent = 'Showing saved copy · updating…'; } } catch (e) {}
+load(true);
+</script>
 </body>
 </html>
