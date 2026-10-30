@@ -676,5 +676,8 @@ setInterval(function () { if (document.visibilityState === 'visible') load(true)
 try { var c = JSON.parse(localStorage.getItem('moonshot-cache-v2') || 'null'); if (c && c.today && c.players) { D = c; render(); el('stamp').textContent = 'Saved copy · updating…'; } } catch (e) {}
 load(true);
 </script>
+<!-- Optional per-app web push (inactive until public OneSignal App ID is configured) -->
+<script src="./push-config.js"></script>
+<script src="./push-setup.js"></script>
 </body>
 </html>
