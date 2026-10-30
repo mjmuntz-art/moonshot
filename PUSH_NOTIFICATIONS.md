@@ -1,61 +1,26 @@
-# iPhone push notifications — staging setup
+# NBA Moonshot — iPhone push notifications
 
-This branch prepares **NBA Moonshot** for OneSignal Web Push without changing the data-generation logic.
-**No notifications are sent until OneSignal is configured and the Apps Script trigger is wired.**
+This feature adds the **Alerts** control and an app-specific Web Push registration to the existing GitHub Pages app.
 
-## Current app and tags
-- Repo: `mjmuntz-art/moonshot`
-- App key: `moonshot`
-- OneSignal web origin: `https://mjmuntz-art.github.io` (shared by all four apps).
-- Worker path: `/moonshot/push/onesignal/OneSignalSDKWorker.js`
-- Worker scope: `/moonshot/push/onesignal/`
-- Landing URL for messages: `https://mjmuntz-art.github.io/moonshot/push/onesignal/`
+## App identity and scope
+- Installed app: **NBA Moonshot**, manifest ID `/moonshot/`, existing Moonshot icon.
+- Home Screen URL: `https://mjmuntz-art.github.io/moonshot/`.
+- OneSignal service worker: `/moonshot/OneSignalSDKWorker.js`.
+- OneSignal service worker scope: `/moonshot/` (not the NBA PropSignal path).
+- OneSignal app: existing Muntz Sports Alerts OneSignal project; public App ID in `push-config.js`.
+- Moonshot preference tags: `push_moonshot_enabled`, `push_moonshot_projections`, `push_moonshot_locked`, `push_moonshot_results`.
 
-## OneSignal steps
-1. Create a OneSignal **Web** app, integration **Custom Code**. Use the origin `https://mjmuntz-art.github.io`. With four apps on the same origin, plan to **use one OneSignal App ID** for all four, testing behavior on each installed Home Screen app before enabling automated sends.
-2. The public **App ID** `4174a3fe-47af-44be-a68f-257caad1e247` and Safari Web ID are already entered in `push-config.js`. Never put the REST API key in GitHub.
-3. Before merging, check whether OneSignal supports four independent iOS Home Screen subscriptions with separate service-worker scopes on this shared origin. Then merge and publish this branch after review. Open the app **from its iPhone Home Screen icon**, tap **Alerts**, tap **Enable notifications**, and approve the native iOS prompt.
-4. Test one manually targeted push message. Configure automatic backend triggers only after that succeeds.
+## Deployment and safe verification
+1. Merge this PR to publish the Moonshot Alerts control. No Google Apps Script code or triggers are changed.
+2. Open Moonshot **from its iPhone Home Screen icon**, not a Safari browser tab.
+3. Open **Alerts**, choose alert types, press **Enable notifications**, and grant the iOS permission.
+4. In OneSignal **Audience → Users & subscriptions**, verify the user has `push_moonshot_enabled = 1` and the chosen event tags.
+5. Send a single **manual test** in OneSignal targeted to the Moonshot subscription. Confirm the notification displays the Moonshot app identity and tapping it opens Moonshot, not NBA PropSignal or Safari. If not, stop before turning on any automatic Moonshot sending.
+6. Only after successful identity verification, add a separate Moonshot GitHub Actions monitor for the existing read-only `?api=1` JSON data feed. Use a distinct checkpoint branch, `ONESIGNAL_REST_API_KEY` repository secret and a Moonshot-only enable variable. Do not modify Apps Script.
 
-## Tag filters used by the Apps Script sender
-To notify only users who explicitly enabled this app and event type, send through the OneSignal REST API with an AND filter:
-- `push_moonshot_enabled=1`
-- `push_moonshot_projections=1`, `push_moonshot_results=1`, or `push_moonshot_locked=1`
+## Important
+This initial PR does **not** send Moonshot notifications automatically. The Moonshot monitor and sending toggle are intentionally deferred until the iPhone identity test succeeds.
 
-Avoid calling OneSignal `optOut()` when disabling one app, as all four apps are on the same origin. The UI instead disables that app using a tag.
+The other apps share the github.io origin. Distinct manifest IDs and separate service-worker scopes support app isolation, but **actual iPhone icon and tap routing must be verified on the user's device**, not assumed.
 
-## Recommended publication triggers
-After the pre-tip DAILY 1 board pull, notify on a successful new board; after the official lock, notify on LOCKED state; and notify on newly graded results the next morning. Avoid assuming an exact minute before tip-off.
-
-## Server security and deduplication
-Place `ONESIGNAL_APP_ID` (public ID) and **ONESIGNAL_REST_API_KEY** (secret) in the Google Apps Script **Script Properties**. Only Apps Script sends messages to the OneSignal API.
-
-For each event, compute a **stable fingerprint of published event data** (date + event type + relevant picks/results). Compare it to the previous sent fingerprint stored in Script Properties; send only if changed; store the new value **after** successful API response. Use `LockService` around the compare/send/store step to prevent overlapping triggers from duplicating alerts.
-
-Example OneSignal send payload (from Apps Script's `UrlFetchApp.fetch`):
-```javascript
-const payload = {
-  app_id: PropertiesService.getScriptProperties().getProperty('ONESIGNAL_APP_ID'),
-  target_channel: 'push',
-  headings: { en: 'Updated: NBA Moonshot' },
-  contents: { en: 'New published data is available.' },
-  url: 'https://mjmuntz-art.github.io/moonshot/',
-  filters: [
-    { field: 'tag', key: 'push_moonshot_enabled', relation: '=', value: '1' },
-    { operator: 'AND' },
-    { field: 'tag', key: 'push_moonshot_projections', relation: '=', value: '1' }
-  ]
-};
-const response = UrlFetchApp.fetch('https://api.onesignal.com/notifications', {
-  method: 'post',
-  headers: { Authorization: 'Key ' + PropertiesService.getScriptProperties().getProperty('ONESIGNAL_REST_API_KEY') },
-  contentType: 'application/json',
-  payload: JSON.stringify(payload),
-  muteHttpExceptions: true
-});
-if (response.getResponseCode() < 200 || response.getResponseCode() >= 300) {
-  throw new Error('Push API error: ' + response.getContentText());
-}
-```
-
-**Important:** This example is a send operation, not an installed trigger. It should be called only after validating publication success and deduplicating. Never run it directly from the browser. Different OneSignal web subscriptions across four installed Home Screen apps on one GitHub Pages origin must be tested for routing and isolation before production deployment.
+Never place a OneSignal REST API key in client-facing GitHub files or screenshots.
