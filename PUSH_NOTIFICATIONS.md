@@ -7,9 +7,9 @@ This branch prepares **NBA Moonshot** for OneSignal Web Push without changing th
 - Repo: `mjmuntz-art/moonshot`
 - App key: `moonshot`
 - OneSignal web origin: `https://mjmuntz-art.github.io` (shared by all four apps).
-- Worker path: `/moonshot/OneSignalSDKWorker.js`
-- Worker scope: `/moonshot/`
-- Landing URL for messages: `https://mjmuntz-art.github.io/moonshot/`
+- Worker path: `/moonshot/push/onesignal/OneSignalSDKWorker.js`
+- Worker scope: `/moonshot/push/onesignal/`
+- Landing URL for messages: `https://mjmuntz-art.github.io/moonshot/push/onesignal/`
 
 ## OneSignal steps
 1. Create a OneSignal **Web** app, integration **Custom Code**. Use the origin `https://mjmuntz-art.github.io`. With four apps on the same origin, plan to **use one OneSignal App ID** for all four, testing behavior on each installed Home Screen app before enabling automated sends.
