@@ -116,7 +116,7 @@
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   window.OneSignalDeferred.push(async function (OneSignal) {
     try {
-      var scope = new URL("./push/onesignal/", location.href).pathname;
+      var scope = new URL("./", location.href).pathname;
       await OneSignal.init({
         appId: config.oneSignalAppId,
         safari_web_id: config.safariWebId,
