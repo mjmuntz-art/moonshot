@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <!-- ▼▼ Paste your Apps Script web-app link (ends in /exec) between the quotes ▼▼ -->
-<script>window.MOONSHOT_URL = 'https://script.google.com/macros/s/AKfycbxnQRWf_pdsaMfmqnXi94I32U8D9bIDPjobU47DutlzhmnL-yy2IcCZpryF9osiyAx1KQ/exec';</script>
+<script>window.MOONSHOT_URL = 'PASTE_YOUR_EXEC_LINK_HERE';</script>
 <!-- ▲▲ That is the only line you ever need to change ▲▲ -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#070b13;--p1:#0f1a2c;--p2:#0b1422;--line:#1d2b42;--line2:#16233a;--txt:#e6ecf5;--mute:#7f93ad;--dim:#5d6f88;--gold:#f1ce50;--grn:#4ef0a8;--red:#ff6b6b;
---off:#4a8dff;--w5:#2bc4b0;--lad:#9b6bff;--lw:#ff5aa5;--me:#ff9a3c;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;--sans:'DM Sans',-apple-system,system-ui,sans-serif}
+--off:#4a8dff;--w5:#2bc4b0;--lad:#9b6bff;--lw:#ff5aa5;--vv:#b6e35a;--me:#ff9a3c;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;--sans:'DM Sans',-apple-system,system-ui,sans-serif}
 *{box-sizing:border-box}
 html{background:var(--bg)}
 body{margin:0;min-height:100vh;color:var(--txt);font:14px/1.45 var(--sans);-webkit-font-smoothing:antialiased;
@@ -106,7 +106,7 @@ main{max-width:1440px;margin:auto;padding:22px 28px 60px}
 .ln .lbl{font:600 11px var(--mono);letter-spacing:.8px}
 .link{color:#9fb0c6;text-decoration:underline;font:12px var(--sans)}
 /* results */
-.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
 .kpi{padding:14px 16px;border-top:3px solid var(--c)}.kpi .k{color:var(--c)}.kpi b{font:700 30px var(--mono);display:block;margin:6px 0 2px}.kpi span{font:11px var(--mono);color:var(--mute);display:block}
 .chartcard{padding:14px 16px;position:relative}
 .legend{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
@@ -203,12 +203,14 @@ td.u,th.u{text-align:right;font-family:var(--mono);font-weight:700;white-space:n
 var D = null, view = 'today', span = 'L10', mTrack = null, openLegs = {}, openPlayers = {}, hidden = {}, sel = null, q = '', loadedAt = 0, busy = false, IDS = {}, LEGS = [], HIST = {};
 var TR = {
   off: { name: 'Official 5+', c: '#4a8dff', key: 'official', note: 'locked trial' },
-  w5: { name: '5+ window', c: '#2bc4b0', key: 'five_window', note: 'since Oct 27', wt: '5+ WINDOW' },
+  w5: { name: '5+ window', c: '#2bc4b0', key: 'five_window', note: 'since Oct 27', wt: '5+ WINDOW', start: '2026-10-27' },
   lad: { name: 'Ladder', c: '#9b6bff', key: 'ladder', note: 'best rung per player' },
-  lw: { name: 'Ladder window', c: '#ff5aa5', key: 'ladder_window', note: 'since Oct 27', wt: 'LADDER WINDOW' },
+  lw: { name: 'Ladder window', c: '#ff5aa5', key: 'ladder_window', note: 'since Oct 27', wt: 'LADDER WINDOW', start: '2026-10-27' },
+  vv: { name: 'Volume V2', c: '#b6e35a', key: 'volume_v2', note: 'since Nov 10 · volume first', start: '2026-11-10' },
   me: { name: 'My picks', c: '#ff9a3c', key: 'my_picks', note: 'your own' }
 };
-var ORDER = ['off', 'w5', 'lad', 'lw', 'me'], WIN_START = '2026-10-27';
+var ORDER = ['off', 'w5', 'lad', 'lw', 'vv', 'me'], WIN_START = '2026-10-27';
+function started(k, d) { return !TR[k].start || d >= TR[k].start; }
 var TEAM_ID = { ATL: 1610612737, BOS: 1610612738, BKN: 1610612751, CHA: 1610612766, CHI: 1610612741, CLE: 1610612739, DAL: 1610612742, DEN: 1610612743, DET: 1610612765, GSW: 1610612744, HOU: 1610612745, IND: 1610612754, LAC: 1610612746, LAL: 1610612747, MEM: 1610612763, MIA: 1610612748, MIL: 1610612749, MIN: 1610612750, NOP: 1610612740, NYK: 1610612752, OKC: 1610612760, ORL: 1610612753, PHI: 1610612755, PHX: 1610612756, POR: 1610612757, SAC: 1610612758, SAS: 1610612759, TOR: 1610612761, UTA: 1610612762, WAS: 1610612764 };
 var TEAM_COLOR = { ATL: '#e03a3e', BOS: '#007a33', BKN: '#9aa3ad', CHA: '#1d1160', CHI: '#ce1141', CLE: '#860038', DAL: '#00538c', DEN: '#0e2240', DET: '#c8102e', GSW: '#1d428a', HOU: '#ce1141', IND: '#fdbb30', LAC: '#c8102e', LAL: '#552583', MEM: '#5d76a9', MIA: '#98002e', MIL: '#00471b', MIN: '#236192', NOP: '#85714d', NYK: '#f58426', OKC: '#007ac1', ORL: '#0077c0', PHI: '#006bb6', PHX: '#e56020', POR: '#e03a3e', SAC: '#5a2d81', SAS: '#c4ced4', TOR: '#ce1141', UTA: '#753bbd', WAS: '#e31837' };
 
@@ -259,9 +261,9 @@ function gradedLegs() {
     if (r.result_status !== 'FINAL' && r.result_status !== 'VOID') return; var tm = lockTeam[r.date + '|' + r.nba_player_id] || [], h = r.result_status === 'VOID' ? '' : Number(r.hit);
     push('off', r, r.nba_player_id, tm[0], tm[1], 5, r.result_status, h, r.three_pm, h === '' ? 0 : h ? P.straight * (decOf(r.american_odds) - 1) : -P.straight);
   });
-  (D.ladderLegs || []).concat((D.windowLegs || []).map(function (r) { return Object.assign({ _w: r.track }, r); })).forEach(function (r) {
+  (D.ladderLegs || []).concat((D.windowLegs || []).map(function (r) { return Object.assign({ _w: r.track }, r); }), (D.volumeLegs || []).map(function (r) { return Object.assign({ _w: 'VOLUME V2' }, r); })).forEach(function (r) {
     if (r.result_status !== 'FINAL' && r.result_status !== 'VOID') return; var h = r.result_status === 'VOID' ? '' : Number(r.hit);
-    push(r._w ? (r._w === '5+ WINDOW' ? 'w5' : 'lw') : 'lad', r, r.nba_player_id, r.team, r.opponent, r.threshold, r.result_status, h, r.three_pm, h === '' ? 0 : h ? P.straight * (decOf(r.american_odds) - 1) : -P.straight);
+    push(r._w ? (r._w === '5+ WINDOW' ? 'w5' : r._w === 'VOLUME V2' ? 'vv' : 'lw') : 'lad', r, r.nba_player_id, r.team, r.opponent, r.threshold, r.result_status, h, r.three_pm, h === '' ? 0 : h ? P.straight * (decOf(r.american_odds) - 1) : -P.straight);
   });
   var logId = {}; (D.myLog || []).forEach(function (l) { logId[l.date + '|' + nkey(l.player)] = l.nba_player_id; });
   (D.mine || []).forEach(function (r) {
@@ -287,6 +289,9 @@ function todayTracks() {
     var rows = (D.windowPicks || []).filter(function (r) { return r.date === t && r.track === TR[k].wt; });
     res[k] = !rows.length ? { state: t < WIN_START ? 'notyet' : 'wait', legs: [] } : { state: 'recorded', note: (rows.filter(function (r) { return Number(r.rank) > 0; }).length < 3 ? rows[0].note : ''), legs: rows.filter(function (r) { return Number(r.rank) > 0; }).map(function (r) { return N({ id: r.nba_player_id, player: r.player, team: r.team, opp: r.opponent, thr: Number(r.threshold), odds: r.american_odds, book: r.book, model: r.model_p, implied: r.implied_p }); }) };
   });
+  // Volume V2
+  var vrows = (D.volumePicks || []).filter(function (r) { return r.date === t; });
+  res.vv = !vrows.length ? { state: t < TR.vv.start ? 'notyet' : 'wait', legs: [] } : { state: 'recorded', legs: vrows.filter(function (r) { return Number(r.rank) > 0; }).map(function (r) { return N({ id: r.nba_player_id, player: r.player, team: r.team, opp: r.opponent, thr: Number(r.threshold), odds: r.american_odds, book: r.book, model: r.model_p, implied: r.implied_p }); }) };
   // Mine
   var logId = {}; (D.myLog || []).forEach(function (l) { logId[l.date + '|' + nkey(l.player)] = l.nba_player_id; });
   var mine = (D.mine || []).filter(function (r) { return r.date === t && r.player; });
@@ -348,7 +353,7 @@ function trackCard(k, d, compact) {
   var head = '<div class="th"><span class="t">■ ' + tr.name + (L.length ? ' · ' + L.length + (L.length === 1 ? ' LEG' : ' LEGS') : '') + '</span><span class="b">' + (d.book ? esc(bookName(d.book)).toUpperCase() : '') + (k === 'lw' ? (d.book ? ' · ' : '') + 'HIGH-USAGE SHOOTERS' : '') + '</span></div>';
   var par = d.parlay ? '<div class="par"><strong>' + odds(d.parlay) + '</strong><span class="pill ' + (inRange ? 'in' : d.parlay > 18000 ? 'hot' : 'out') + '">' + (inRange ? 'IN 10K–18K RANGE' : d.parlay > 18000 ? 'OVER RANGE' : 'UNDER RANGE') + '</span><span class="k" style="margin-left:auto">FULL PARLAY</span></div>' + (compact ? '' : gauge(d.parlay))
     : L.length === 1 ? '<div class="par"><strong>' + odds(L[0].odds) + '</strong><span class="pill out">1 LEG · STRAIGHT ONLY</span></div>' : '';
-  var empty = { wait: 'Waiting for today\'s board.', notyet: 'Starts Oct 27.', nobet: 'No bet today. Nothing met the trial rules.', empty: 'No picks of your own yet. Type them on the MY PICKS tab before tip-off.', recorded: 'Nothing qualified today.', suggested: 'Nothing qualified today.', locked: 'No legs.' }[d.state] || 'No picks.';
+  var empty = { wait: 'Waiting for today\'s board.', notyet: 'Not started yet.', nobet: 'No bet today. Nothing met the trial rules.', empty: 'No picks of your own yet. Type them on the MY PICKS tab before tip-off.', recorded: 'Nothing qualified today.', suggested: 'Nothing qualified today.', locked: 'No legs.' }[d.state] || 'No picks.';
   var stateChip = k === 'off' && d.state === 'locked' ? ' <span class="chip lock">LOCKED</span>' : '';
   return '<div class="card trk" style="--c:' + tr.c + '" data-track="' + k + '">' + head.replace('</span><span class="b">', stateChip + '</span><span class="b">') + par + cardLive(d) +
     (L.length ? L.map(function (p, i) { return legRow(k, Object.assign({ state: d.state }, p), i, compact); }).join('') : '<div class="empty">' + esc(empty) + '</div>') +
@@ -390,14 +395,14 @@ function cd(ms) { if (ms <= 0) return '0:00'; var s = Math.floor(ms / 1000), h =
 function todayView() {
   var tt = todayTracks(), ord = trackOrder(), mobile = matchMedia('(max-width:760px)').matches;
   if (!mTrack || ord.indexOf(mTrack) < 0) mTrack = ord.filter(function (k) { return tt[k].legs.length; })[0] || ord[0];
-  var lead = ord[0], others = ord.slice(1);
+  var lead = ord.slice(0, 2), others = ord.slice(2);
   var tabs = '<div class="tabs">' + ord.map(function (k) { return '<button style="--c:' + TR[k].c + '" data-mtrack="' + k + '" class="' + (k === mTrack ? 'on' : '') + '">' + TR[k].name.toUpperCase() + (tt[k].legs.length ? ' · ' + tt[k].legs.length : '') + '</button>'; }).join('') + '</div>';
   var cards = mobile ? '<div class="trackwrap">' + ord.map(function (k) { return trackCard(k, tt[k]).replace('class="card trk"', 'class="card trk' + (k === mTrack ? ' sel' : '') + '"'); }).join('') + '</div>'
-    : trackCard(lead, tt[lead]) + '<div class="duo">' + others.map(function (k) { return trackCard(k, tt[k], true); }).join('') + '</div>';
+    : '<div class="duo">' + lead.map(function (k) { return trackCard(k, tt[k]); }).join('') + '</div><div class="duo">' + others.map(function (k) { return trackCard(k, tt[k], true); }).join('') + '</div>';
   return '<div class="cols"><div class="stack">' + countdown() + scoreboard() + tabs + cards + '</div><div class="stack">' + standings() + lastNight() + '</div></div>';
 }
 function tagFor(txt, usd, k, date) {
-  txt = String(txt || ''); if ((k === 'w5' || k === 'lw') && date < WIN_START) return '<span class="mu">—</span>';
+  txt = String(txt || ''); if (!started(k, date)) return '<span class="mu">—</span>';
   var m = txt.match(/^(\d+)\/(\d+)/);
   if (m) return '<span class="tag ' + (m[1] === m[2] && m[2] !== '0' ? 't-all' : m[1] === '0' ? 't-zero' : 't-part') + '">' + (m[1] === m[2] ? 'ALL HIT ' : '') + m[1] + '/' + m[2] + '</span>';
   if (/No bet|No legs/i.test(txt)) return '<span class="tag t-nb">NO BET</span>';
@@ -411,8 +416,8 @@ function resultsView() {
     return '<div class="card kpi" style="--c:' + TR[k].c + '"><div class="k">' + TR[k].name + '</div><b class="' + cls(v) + '">' + money(num(v) ? v : 0, 0) + '</b><span>' + (rec ? rec[1] + '–' + rec[2] + ' days' : 'no bets yet') + ' · ' + h + '/' + g.length + ' legs</span><span>' + (g.length ? pct(h / g.length) + ' hit rate' : '') + '</span></div>';
   }).join('') + '</div>';
   var chart = '<div class="card chartcard" id="chartcard"><div class="k">Running profit · ' + (matchMedia('(hover:hover)').matches ? 'hover' : 'tap') + ' a day for details</div><div class="legend">' + ORDER.map(function (k) { return '<button data-hide="' + k + '" class="' + (hidden[k] ? 'off' : '') + '" style="--c:' + TR[k].c + '"><i></i>' + TR[k].name + '</button>'; }).join('') + '</div><div id="chart">' + chartSvg(dd) + '</div></div>';
-  var nightly = '<div class="card" style="padding:14px 16px;overflow-x:auto"><div class="k">Night by night</div><table><tr><th>Night</th>' + ORDER.map(function (k) { return '<th style="color:' + TR[k].c + '">' + (k === 'w5' ? '5+ win.' : k === 'lw' ? 'Lad. win.' : TR[k].name) + '</th>'; }).join('') + '<th class="u">Best</th></tr>' +
-    (dd.length ? dd.slice().reverse().map(function (d) { return '<tr data-day="' + d.date + '" style="cursor:pointer"><td style="white-space:nowrap">' + esc(dayLabel(d.date, { weekday: 'short', month: 'short', day: 'numeric' })) + '</td>' + ORDER.map(function (k) { return '<td>' + tagFor(d[TR[k].key], d[TR[k].key + '_usd'], k, d.date) + '</td>'; }).join('') + '<td class="u ' + (/\+\$/.test(d.best_today) ? 'ok' : 'mu') + '">' + esc(String(d.best_today || '').replace(/^.*\((.*)\)$/, '$1') || '—') + '</td></tr>'; }).join('') : '<tr><td colspan="7" class="mu">No graded nights yet.</td></tr>') + '</table></div>';
+  var nightly = '<div class="card" style="padding:14px 16px;overflow-x:auto"><div class="k">Night by night</div><table><tr><th>Night</th>' + ORDER.map(function (k) { return '<th style="color:' + TR[k].c + '">' + (k === 'w5' ? '5+ win.' : k === 'lw' ? 'Lad. win.' : k === 'vv' ? 'Vol. V2' : TR[k].name) + '</th>'; }).join('') + '<th class="u">Best</th></tr>' +
+    (dd.length ? dd.slice().reverse().map(function (d) { return '<tr data-day="' + d.date + '" style="cursor:pointer"><td style="white-space:nowrap">' + esc(dayLabel(d.date, { weekday: 'short', month: 'short', day: 'numeric' })) + '</td>' + ORDER.map(function (k) { return '<td>' + tagFor(d[TR[k].key], d[TR[k].key + '_usd'], k, d.date) + '</td>'; }).join('') + '<td class="u ' + (/\+\$/.test(d.best_today) ? 'ok' : 'mu') + '">' + esc(String(d.best_today || '').replace(/^.*\((.*)\)$/, '$1') || '—') + '</td></tr>'; }).join('') : '<tr><td colspan="8" class="mu">No graded nights yet.</td></tr>') + '</table></div>';
   var players = playerTable(8);
   return '<div class="stack">' + kp + chart + nightly + players + '</div>';
 }
@@ -451,7 +456,7 @@ function chartSvg(dd) {
   if (!dd.length) return '<div class="empty">The chart starts after the first graded night.</div>';
   var sm = matchMedia('(max-width:760px)').matches, W = sm ? 360 : 700, H = sm ? 220 : 260, L = sm ? 42 : 52, R = 14, Tp = 14, B = 28, n = dd.length;
   var keys = ORDER.filter(function (k) { return !hidden[k]; }), vals = [0];
-  dd.forEach(function (d) { keys.forEach(function (k) { if ((k !== 'w5' && k !== 'lw') || d.date >= WIN_START) { var v = Number(d[TR[k].key + '_total_usd']); if (isFinite(v)) vals.push(v); } }); });
+  dd.forEach(function (d) { keys.forEach(function (k) { if (started(k, d.date)) { var v = Number(d[TR[k].key + '_total_usd']); if (isFinite(v)) vals.push(v); } }); });
   var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), pad = Math.max(10, (hi - lo) * .1); lo -= pad; hi += pad;
   var x = function (i) { return n === 1 ? (L + W - R) / 2 : L + i * (W - L - R) / (n - 1); }, y = function (v) { return Tp + (hi - v) / (hi - lo) * (H - Tp - B); };
   CH = { x: x, y: y, n: n, W: W, H: H, dd: dd };
@@ -461,7 +466,7 @@ function chartSvg(dd) {
   var lab = Math.ceil(n / (sm ? 4 : 8));
   dd.forEach(function (d, i) { if ((i % lab === 0 && (n - 1 - i >= lab / 2 || i === 0)) || i === n - 1) s += '<text x="' + x(i) + '" y="' + (H - 8) + '" text-anchor="' + (n > 1 && i === n - 1 ? 'end' : n > 1 && i === 0 ? 'start' : 'middle') + '" font-size="' + (sm ? 11 : 10.5) + '" font-family="JetBrains Mono,monospace" fill="#7f93ad">' + esc(dayLabel(d.date).toUpperCase()) + '</text>'; });
   keys.forEach(function (k) {
-    var pts = []; dd.forEach(function (d, i) { if ((k === 'w5' || k === 'lw') && d.date < WIN_START) return; var v = Number(d[TR[k].key + '_total_usd']); if (isFinite(v)) pts.push([x(i), y(v)]); });
+    var pts = []; dd.forEach(function (d, i) { if (!started(k, d.date)) return; var v = Number(d[TR[k].key + '_total_usd']); if (isFinite(v)) pts.push([x(i), y(v)]); });
     if (!pts.length) return;
     s += '<polyline points="' + pts.map(function (p) { return p.join(','); }).join(' ') + '" fill="none" stroke="' + TR[k].c + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
     if (pts.length === 1) s += '<circle cx="' + pts[0][0] + '" cy="' + pts[0][1] + '" r="3.5" fill="' + TR[k].c + '"/>';
@@ -471,7 +476,7 @@ function chartSvg(dd) {
 }
 function tipHtml(i) {
   var d = CH.dd[i], legs = LEGS.filter(function (l) { return l.date === d.date; });
-  var rows = ORDER.filter(function (k) { return !hidden[k] && ((k !== 'w5' && k !== 'lw') || d.date >= WIN_START); }).map(function (k) {
+  var rows = ORDER.filter(function (k) { return !hidden[k] && started(k, d.date); }).map(function (k) {
     var v = d[TR[k].key + '_usd'], tot = d[TR[k].key + '_total_usd'];
     return '<div class="r"><span><i style="background:' + TR[k].c + '"></i>' + TR[k].name + '</span><span><span class="' + cls(v) + '">' + (num(v) ? money(v) : 'no picks') + '</span> <span class="mu">· total ' + money(tot, 0) + '</span></span></div>';
   }).join('');
@@ -481,7 +486,7 @@ function tipHtml(i) {
 function showDay(i, evt) {
   sel = i; var g = el('hover'); if (!g || !CH) return; var x = CH.x(i), d = CH.dd[i], h = '';
   h += '<line x1="' + x + '" x2="' + x + '" y1="10" y2="' + (CH.H - 28) + '" stroke="#f1ce50" stroke-dasharray="3 3"/>';
-  ORDER.forEach(function (k) { if (hidden[k] || ((k === 'w5' || k === 'lw') && d.date < WIN_START)) return; var v = Number(d[TR[k].key + '_total_usd']); if (isFinite(v)) h += '<circle cx="' + x + '" cy="' + CH.y(v) + '" r="4.5" fill="' + TR[k].c + '" stroke="#fff" stroke-width="1.5"/>'; });
+  ORDER.forEach(function (k) { if (hidden[k] || !started(k, d.date)) return; var v = Number(d[TR[k].key + '_total_usd']); if (isFinite(v)) h += '<circle cx="' + x + '" cy="' + CH.y(v) + '" r="4.5" fill="' + TR[k].c + '" stroke="#fff" stroke-width="1.5"/>'; });
   g.innerHTML = h;
   var html = tipHtml(i); el('tipb').innerHTML = html;
   var tip = el('tip'), card = el('chartcard'), svg = el('svgc');
@@ -676,8 +681,5 @@ setInterval(function () { if (document.visibilityState === 'visible') load(true)
 try { var c = JSON.parse(localStorage.getItem('moonshot-cache-v2') || 'null'); if (c && c.today && c.players) { D = c; render(); el('stamp').textContent = 'Saved copy · updating…'; } } catch (e) {}
 load(true);
 </script>
-<!-- Optional per-app web push (inactive until public OneSignal App ID is configured) -->
-<script src="./push-config.js"></script>
-<script src="./push-setup.js"></script>
 </body>
 </html>
