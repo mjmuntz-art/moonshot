@@ -139,6 +139,48 @@ td.u,th.u{text-align:right;font-family:var(--mono);font-weight:700;white-space:n
 .foot{color:var(--dim);font:11px var(--mono);margin-top:30px;letter-spacing:.5px}
 .err{border-left:4px solid var(--red);padding:14px 16px}
 
+.tix{display:block;margin:10px 0;padding:12px 14px 10px;border:1px solid #1a2840;border-top:1px solid #1a2840;border-radius:14px;background:linear-gradient(105deg,color-mix(in srgb,var(--tc) 30%,transparent) 0,color-mix(in srgb,var(--tc) 8%,transparent) 42%,transparent 70%),#0b1424;cursor:pointer}
+.tix .tx-top{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:12px;align-items:center}
+.tix .who b{font-size:17px;display:block}.tix .tln{display:block;font-size:13px;color:#b6c4d6;margin-top:2px}.tix .od{color:var(--gold);font-family:var(--mono);font-weight:700}.tix .bk{color:var(--mute);font:10.5px var(--mono);margin-left:4px}
+.tix .m{display:block;font-size:12px;color:var(--mute);margin-top:3px}
+.tix .cnt{font-family:var(--mono);text-align:right;white-space:nowrap}.tix .cnt b{font-size:30px;font-weight:700;color:#5d6f88}.tix .cnt span{font-size:15px;color:#5d6f88}
+.tix.st-live .cnt b{color:var(--gold)}.tix.st-hit .cnt b{color:var(--grn)}.tix.st-miss .cnt b{color:var(--red)}
+.tix .pips{display:flex;gap:5px;margin:11px 0 9px}.tix .pips i{flex:1;height:8px;border-radius:4px;background:#1c2a42}
+.tix.st-live .pips i.f{background:var(--gold)}.tix.st-hit .pips i.f,.tix.st-hit .pips i{background:var(--grn)}.tix.st-miss .pips i.f{background:var(--red)}
+.tix .tx-bot{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12.5px;color:#b6c4d6}
+.tix .tag{font:700 10.5px var(--mono);letter-spacing:.08em;padding:4px 8px;border-radius:6px;background:#141f31;color:var(--mute);white-space:nowrap}
+.tix.st-live .tag{background:#2b2408;color:var(--gold)}.tix.st-hit .tag{background:#06281a;color:var(--grn)}.tix.st-miss .tag{background:#2c0d10;color:var(--red)}
+.tix .more{margin-top:10px;padding-top:6px;border-top:1px dashed var(--line)}.tix:not(.open) .more{display:none}
+.tix .tgl2{font:10.5px var(--mono);color:var(--mute);text-align:center;margin-top:6px;letter-spacing:.06em}
+.tix .ondot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--grn);margin-right:6px;vertical-align:8px;box-shadow:0 0 0 3px #4ef0a826}
+.tfoot{margin:2px -18px 0;padding:11px 18px;background:#0a1322;border-top:1px solid var(--line);font-size:13px;color:#d4deea}
+.pill.cash{color:var(--grn);border-color:#4ef0a866}.pill.go{color:var(--gold);border-color:#f1ce5066}.tstat{margin:2px 0 8px}.tstat .pill{font-size:11px;padding:4px 9px}
+.kpi{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}.kpi .cal{color:var(--c) !important;margin-top:6px;font-weight:600}.kpi:hover{filter:brightness(1.12)}
+button.srow{font:inherit;color:inherit;background:none;border:0;border-top:1px solid var(--line);width:100%;text-align:left;cursor:pointer}
+.feedhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chips button{font-family:inherit;font-size:12px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid #22324d;background:transparent;color:#9fb0c6;cursor:pointer}
+.chips button.on{border-color:var(--c,var(--gold));background:color-mix(in srgb,var(--c,var(--gold)) 16%,transparent);color:var(--c,var(--gold))}
+.night{padding:0;overflow:hidden}.night .nh{display:flex;justify-content:space-between;align-items:baseline;padding:12px 16px;border-bottom:1px solid var(--line)}
+.night .nh b{font-size:16px;display:block}.night .nh small{font-size:12px;color:var(--mute)}.night .nh .mono{font-size:17px;font-weight:700}
+.night .nt{padding:10px 16px;border-bottom:1px solid #131f33}.night .nt:last-child{border-bottom:0}
+.night .ntt{display:flex;justify-content:space-between;align-items:center;font:700 11px var(--mono);letter-spacing:.08em;margin-bottom:6px}.night .ntt i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:7px}
+.nl{display:grid;grid-template-columns:28px 18px minmax(0,1fr) auto;gap:8px;align-items:center;padding:4px 0;font-size:14px}.nl .mk{font-weight:800;text-align:center}
+.nl .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.nl .nr{font:12px var(--mono);color:var(--mute);white-space:nowrap}.nl .od{color:var(--gold)}
+.nl .mini{width:28px;height:28px}
+.nightnone{padding:10px 14px;border:1px dashed #22324d;border-radius:14px;font-size:13px;color:var(--mute)}
+.more-n{font-family:inherit;font-size:13px;font-weight:600;padding:11px;border-radius:12px;border:1px solid #22324d;background:transparent;color:#cfd9e6;cursor:pointer}
+.tvh{display:flex;flex-direction:column;gap:12px;border-top:3px solid var(--c)}.tvt{display:flex;flex-direction:column;gap:4px}.tvt b{font:700 32px var(--mono)}.tvt .mu{font-size:12.5px}
+.tvh .link{align-self:flex-start}
+.tvgrid{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:16px;align-items:start}
+.calm{padding:14px}.calh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}.calh b{font-size:16px}.calh .mono{font-weight:700}
+.calg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calg.wk{font:10px var(--mono);color:#5d6f88;text-align:center;margin-bottom:5px}
+.cd{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0;font:inherit;border:1px solid transparent;color:#5d6f88;background:transparent}
+.cd b{font-size:12px}.cd small{font:9px var(--mono)}button.cd{cursor:pointer}
+.cd.none{border:1px dashed #1c2a42}.cd.up{background:#0f3b2a;color:var(--grn)}.cd.down{background:#3d1418;color:var(--red)}.cd.nb{background:#141f31;color:#7f93ad}.cd.today{border:1px dashed var(--gold);color:var(--gold)}
+.cd.sel{box-shadow:0 0 0 2px var(--gold)}.cd.future{opacity:.45}
+.calkey{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--mute)}.calkey i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.calkey i.up{background:#0f3b2a}.calkey i.down{background:#3d1418}.calkey i.nb{background:#141f31}.calkey i.none{border:1px dashed #22324d}
+@media (max-width:760px){.tvh .chips{display:grid;grid-template-columns:1fr 1fr}.tvgrid{grid-template-columns:minmax(0,1fr)}.tfoot{margin:2px -14px 0;padding:11px 14px}.night .nh,.night .nt{padding-left:14px;padding-right:14px}.tvt b{font-size:26px}}
 /* live */
 .lv{grid-column:3 / span 2;margin-top:0 !important;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;font:12px var(--mono);color:#cfd9e6}
 .lv b{font:700 16px var(--mono);color:#fff}.lv.hit b{color:var(--grn)}.lv.miss b{color:var(--red)}
@@ -216,6 +258,8 @@ var TRIAL2 = '2026-11-17', ORDER = ['vv', 'off', 'w5', 'lad', 'lw'], WIN_START =
 function setOrder() { ORDER = D && D.today >= TRIAL2 ? ['vv', 'v5', 'off', 'w5'] : ['vv', 'off', 'w5', 'lad', 'lw']; }
 function started(k, d) { return !TR[k].start || d >= TR[k].start; }
 var TEAM_ID = { ATL: 1610612737, BOS: 1610612738, BKN: 1610612751, CHA: 1610612766, CHI: 1610612741, CLE: 1610612739, DAL: 1610612742, DEN: 1610612743, DET: 1610612765, GSW: 1610612744, HOU: 1610612745, IND: 1610612754, LAC: 1610612746, LAL: 1610612747, MEM: 1610612763, MIA: 1610612748, MIL: 1610612749, MIN: 1610612750, NOP: 1610612740, NYK: 1610612752, OKC: 1610612760, ORL: 1610612753, PHI: 1610612755, PHX: 1610612756, POR: 1610612757, SAC: 1610612758, SAS: 1610612759, TOR: 1610612761, UTA: 1610612762, WAS: 1610612764 };
+/* brighter team color for the ticket glow, where the primary is too dark to show on navy */
+var TEAM_POP = { CHA: '#00a3b4', DEN: '#fec524', MIL: '#3a9b4a', GSW: '#ffc72c', LAL: '#fdb927', SAC: '#8a5cc0', DAL: '#2f86e0', MIN: '#3f8fd0', CLE: '#b8244f', MIA: '#d1103f' };
 var TEAM_COLOR = { ATL: '#e03a3e', BOS: '#007a33', BKN: '#9aa3ad', CHA: '#1d1160', CHI: '#ce1141', CLE: '#860038', DAL: '#00538c', DEN: '#0e2240', DET: '#c8102e', GSW: '#1d428a', HOU: '#ce1141', IND: '#fdbb30', LAC: '#c8102e', LAL: '#552583', MEM: '#5d76a9', MIA: '#98002e', MIL: '#00471b', MIN: '#236192', NOP: '#85714d', NYK: '#f58426', OKC: '#007ac1', ORL: '#0077c0', PHI: '#006bb6', PHX: '#e56020', POR: '#e03a3e', SAC: '#5a2d81', SAS: '#c4ced4', TOR: '#ce1141', UTA: '#753bbd', WAS: '#e31837' };
 
 /* ================= helpers ================= */
@@ -342,16 +386,41 @@ function histRow(p) {
   var badge = !r.all.length ? '<span class="badge new">NEW TO US</span>' : '<span class="badge ' + (r.w < r.l ? 'cold' : '') + '">WITH US ' + r.w + '–' + r.l + '</span>';
   return '<div class="hrow">' + spark(p.pid, p.thr) + '<div class="hl">' + (last5 ? 'Last 5: ' + last5 + ' made<br>' : '') + '<b>Last time we played him:</b> ' + lastTxt + '</div>' + badge + '</div>';
 }
+function legState(p) {
+  var L = legLive(p), thr = Number(p.thr) || 0;
+  if (!L) return { st: 'pre', made: 0, thr: thr, txt: p.tip ? 'Tips ' + timeCT(p.tip) + ' CT' : 'Not started yet', tag: 'NOT STARTED' };
+  if (L.st === 'wait') return { st: 'wait', made: 0, thr: thr, txt: (L.lp && L.lp.out ? 'Listed inactive' : 'Hasn\'t checked in') + ' · ' + L.clock, tag: 'NOT IN YET' };
+  if (L.st === 'void') return { st: 'void', made: 0, thr: thr, txt: 'Did not play · the leg voids', tag: 'VOID' };
+  var lp = L.lp;
+  return { st: L.st, made: lp.pm, thr: thr, on: lp.on && L.g.state === 'in', txt: L.clock + ' · ' + lp.pm + '-' + lp.pa + ' 3PT · ' + Math.round(lp.min) + ' min' + (lp.pf >= 4 ? ' · ' + lp.pf + ' fouls' : ''),
+    tag: L.st === 'hit' ? 'HIT ✓' : L.st === 'miss' ? 'MISSED' : 'NEEDS ' + (thr - lp.pm) };
+}
 function legRow(k, p, i, compact) {
-  var key = k + '|' + i, r = record(p.pid, p.player), open = !!openLegs[key];
+  var key = k + '|' + i, r = record(p.pid, p.player), open = !!openLegs[key], S = legState(p), tm = T(p.team);
   var chips = [];
   if (k === 'off' && p.state === 'suggested') chips.push('<span class="chip wait">NOT LOCKED YET</span>');
   if (k === 'me') chips.push(p.logged ? (p.late ? '<span class="chip miss">LOGGED LATE</span>' : '<span class="chip lock">LOGGED PREGAME</span>') : '<span class="chip miss">NOT LOGGED</span>');
-  return '<div class="leg' + (compact ? ' fold' : '') + (open ? ' open' : '') + '" data-leg="' + key + '"><span class="n">L' + (i + 1) + '</span>' + headshot(p.pid, p.player, p.team) +
-    '<div class="who"><b>' + esc(p.player) + ' · ' + esc(p.thr) + '+ threes</b><span class="m">' + matchup(p.team, p.opp) + (p.tip ? ' · ' + esc(timeCT(p.tip)) : '') +
-    ' <span class="tgl">· ' + (r.all.length ? r.w + '–' + r.l + ' with us' : 'new') + ' ' + (open ? '▴' : '▾') + '</span></span></div>' +
-    '<div class="odds"><b>' + odds(p.odds) + '</b><span>' + (num(p.model) ? 'MODEL ' + pct(p.model) + ' · BOOK ' + pct(p.implied) : esc(bookName(p.book)).toUpperCase()) + '</span></div>' +
-    liveHtml(p) + '<div class="more">' + histRow(p) + avgRow(p.pid, p.thr) + (chips.length ? '<div class="hrow">' + chips.join('') + '</div>' : '') + '</div></div>';
+  var pips = ''; for (var j = 0; j < S.thr; j++) pips += '<i class="' + (j < S.made ? 'f' : '') + '"></i>';
+  return '<div class="leg tix st-' + S.st + (open ? ' open' : '') + '" data-leg="' + key + '" style="--tc:' + (TEAM_POP[tm] || TEAM_COLOR[tm] || '#2a3b55') + '">' +
+    '<div class="tx-top">' + headshot(p.pid, p.player, p.team) +
+      '<div class="who"><b>' + esc(p.player) + '</b><span class="tln">' + esc(p.thr) + '+ threes · <span class="od">' + odds(p.odds) + '</span>' + (p.book ? ' <span class="bk">' + esc(bookName(p.book)) + '</span>' : '') + '</span><span class="m">' + matchup(p.team, p.opp) + '</span></div>' +
+      '<div class="cnt">' + (S.on ? '<span class="ondot" title="On the floor"></span>' : '') + '<b>' + S.made + '</b><span>/' + S.thr + '</span></div></div>' +
+    '<div class="pips">' + pips + '</div>' +
+    '<div class="tx-bot"><span class="gt">' + esc(S.txt) + '</span><span class="tag">' + S.tag + '</span></div>' +
+    '<div class="more">' + (num(p.model) ? '<div class="hrow mu" style="font:11px var(--mono)">MODEL ' + pct(p.model) + ' · BOOK ' + pct(p.implied) + ' · ' + (r.all.length ? r.w + '–' + r.l + ' with us' : 'new to us') + '</div>' : '') + histRow(p) + avgRow(p.pid, p.thr) + (chips.length ? '<div class="hrow">' + chips.join('') + '</div>' : '') + '</div>' +
+    '<div class="tgl2">' + (open ? 'Hide details ▴' : 'Details ▾') + '</div></div>';
+}
+function cardStat(d) {
+  var c = { hit: 0, live: 0, miss: 0, void: 0, wait: 0, pre: 0 }, need = 0;
+  d.legs.forEach(function (p) { var S = legState(p); c[S.st]++; if (S.st === 'live') need += S.thr - S.made; if (S.st === 'wait' || S.st === 'pre') need += S.thr; });
+  if (!d.legs.length || c.pre === d.legs.length) return null;
+  var alive = d.legs.length - c.void, parl = d.legs.length > 1, parts = [];
+  if (c.hit) parts.push(c.hit + ' HIT'); if (c.live) parts.push(c.live + ' LIVE'); if (c.wait + c.pre) parts.push((c.wait + c.pre) + ' TO GO'); if (c.miss) parts.push(c.miss + ' MISSED');
+  var pill = c.miss && parl ? ['PARLAY DEAD · ' + parts.join(' · '), 'dead'] : c.hit === alive && alive > 0 ? [parl ? 'PARLAY CASHED' : 'CASHED', 'cash'] : c.miss ? ['MISSED', 'dead'] : [parts.join(' · '), 'go'];
+  var foot = c.hit === alive && alive > 0 ? 'Every leg hit.' + (parl && d.parlay ? ' Parlay pays ' + odds(d.parlay) + '.' : '')
+    : c.miss && parl ? c.hit + ' of ' + d.legs.length + ' hit so far. The parlay is out; straights still count.'
+    : need > 0 ? need + ' more three' + (need === 1 ? '' : 's') + ' to cash' + (parl ? ' the parlay' + (d.parlay ? ' (' + odds(d.parlay) + ')' : '') : '') + '.' : '';
+  return { pill: pill, foot: foot };
 }
 function gauge(par) {
   var lo = 5000, hi = 30000, x = function (v) { return Math.max(0, Math.min(100, (Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) * 100)); };
@@ -364,8 +433,10 @@ function trackCard(k, d, compact) {
     : L.length === 1 ? '<div class="par"><strong>' + odds(L[0].odds) + '</strong><span class="pill out">1 LEG · STRAIGHT ONLY</span></div>' : '';
   var empty = { wait: 'Waiting for today\'s board.', notyet: 'Not started yet.', nobet: 'No bet today. Nothing met the trial rules.', empty: 'No picks of your own yet. Type them on the MY PICKS tab before tip-off.', recorded: 'Nothing qualified today.', suggested: 'Nothing qualified today.', locked: 'No legs.' }[d.state] || 'No picks.';
   var stateChip = k === 'off' && d.state === 'locked' ? ' <span class="chip lock">LOCKED</span>' : '';
-  return '<div class="card trk" style="--c:' + tr.c + '" data-track="' + k + '">' + head.replace('</span><span class="b">', stateChip + '</span><span class="b">') + par + cardLive(d) +
+  var CS = cardStat(d), pill = CS ? '<div class="tstat"><span class="pill ' + CS.pill[1] + '">' + CS.pill[0] + '</span></div>' : '';
+  return '<div class="card trk" style="--c:' + tr.c + '" data-track="' + k + '">' + head.replace('</span><span class="b">', stateChip + '</span><span class="b">') + pill + par +
     (L.length ? L.map(function (p, i) { return legRow(k, Object.assign({ state: d.state }, p), i, compact); }).join('') : '<div class="empty">' + esc(empty) + '</div>') +
+    (CS && CS.foot ? '<div class="tfoot">' + esc(CS.foot) + '</div>' : '') +
     (d.note ? '<div class="empty" style="font-size:12px">' + esc(d.note) + '</div>' : '') + '</div>';
 }
 function standings() {
@@ -373,7 +444,7 @@ function standings() {
   return '<div class="card side"><div class="k">Season standings</div>' + trackOrder().map(function (k) {
     var g = legs.filter(function (l) { return l.t === k && l.hit !== ''; }), h = g.filter(function (l) { return l.hit === 1; }).length, v = s[TR[k].key + '_usd'];
     var rec = String(s[TR[k].key] || '').match(/(\d+) up \/ (\d+) down/);
-    return '<div class="srow" style="--c:' + TR[k].c + '"><i></i><div><b>' + TR[k].name + '</b><small>' + h + '/' + g.length + ' legs hit · ' + TR[k].note + '</small></div><span class="r">' + (rec ? rec[1] + '–' + rec[2] : '0–0') + '</span><span class="u ' + cls(v) + '">' + money(num(v) ? v : 0, 0) + '</span></div>';
+    return '<button class="srow" data-trackview="' + k + '" style="--c:' + TR[k].c + '"><i></i><div><b>' + TR[k].name + '</b><small>' + h + '/' + g.length + ' legs hit · ' + TR[k].note + '</small></div><span class="r">' + (rec ? rec[1] + '–' + rec[2] : '0–0') + '</span><span class="u ' + cls(v) + '">' + money(num(v) ? v : 0, 0) + '</span></button>';
   }).join('') + '</div>';
 }
 function lastNight() {
@@ -422,13 +493,67 @@ function resultsView() {
   var s = season(), dd = days(), legs = LEGS;
   var kp = '<div class="kpis' + (ORDER.length === 4 ? ' k4' : '') + '">' + ORDER.map(function (k) {
     var g = legs.filter(function (l) { return l.t === k && l.hit !== ''; }), h = g.filter(function (l) { return l.hit === 1; }).length, v = s[TR[k].key + '_usd'], rec = String(s[TR[k].key] || '').match(/(\d+) up \/ (\d+) down/);
-    return '<div class="card kpi' + (TR[k].main ? ' main' : '') + '" style="--c:' + TR[k].c + '"><div class="k">' + TR[k].name + (TR[k].main ? '<span class="mainbadge">MAIN</span>' : '') + '</div><b class="' + cls(v) + '">' + money(num(v) ? v : 0, 0) + '</b><span>' + (rec ? rec[1] + '–' + rec[2] + ' days' : 'no bets yet') + ' · ' + h + '/' + g.length + ' legs</span><span>' + (g.length ? pct(h / g.length) + ' hit rate' : '') + '</span></div>';
+    return '<button class="card kpi' + (TR[k].main ? ' main' : '') + '" data-trackview="' + k + '" style="--c:' + TR[k].c + '"><div class="k">' + TR[k].name + (TR[k].main ? '<span class="mainbadge">MAIN</span>' : '') + '</div><b class="' + cls(v) + '">' + money(num(v) ? v : 0, 0) + '</b><span>' + (rec ? rec[1] + '–' + rec[2] + ' nights' : 'no bets yet') + ' · ' + h + '/' + g.length + ' legs</span><span class="cal">Calendar →</span></button>';
   }).join('') + '</div>';
   var chart = '<div class="card chartcard" id="chartcard"><div class="k">Running profit · ' + (matchMedia('(hover:hover)').matches ? 'hover' : 'tap') + ' a day for details</div><div class="legend">' + ORDER.map(function (k) { return '<button data-hide="' + k + '" class="' + (hidden[k] ? 'off' : '') + '" style="--c:' + TR[k].c + '"><i></i>' + TR[k].name + '</button>'; }).join('') + '</div><div id="chart">' + chartSvg(dd) + '</div></div>';
   var nightly = '<div class="card" style="padding:14px 16px;overflow-x:auto"><div class="k">Night by night</div><table><tr><th>Night</th>' + ORDER.map(function (k) { return '<th style="color:' + TR[k].c + '">' + (k === 'w5' ? '5+ win.' : k === 'lw' ? 'Lad. win.' : k === 'vv' ? 'Vol. V2' : k === 'v5' ? 'V2 5+' : TR[k].name) + '</th>'; }).join('') + '<th class="u">Best</th></tr>' +
     (dd.length ? dd.slice().reverse().map(function (d) { return '<tr data-day="' + d.date + '" style="cursor:pointer"><td style="white-space:nowrap">' + esc(dayLabel(d.date, { weekday: 'short', month: 'short', day: 'numeric' })) + '</td>' + ORDER.map(function (k) { return '<td>' + tagFor(d[TR[k].key], d[TR[k].key + '_usd'], k, d.date) + '</td>'; }).join('') + '<td class="u ' + (/\+\$/.test(d.best_today) ? 'ok' : 'mu') + '">' + esc(String(d.best_today || '').replace(/^.*\((.*)\)$/, '$1') || '—') + '</td></tr>'; }).join('') : '<tr><td colspan="7" class="mu">No graded nights yet.</td></tr>') + '</table></div>';
   var players = playerTable(8);
-  return '<div class="stack">' + kp + chart + nightly + players + '</div>';
+  return '<div class="stack">' + kp + nightFeed() + chart + players + '</div>';
+}
+
+/* ================= results: night feed + track calendar ================= */
+var feedF = 'played', feedN = 7, trackSel = 'vv', calSel = {};
+function legLine(l) {
+  return '<div class="nl">' + mini(l.pid, l.player) + '<span class="mk ' + (l.hit === 1 ? 'ok' : l.hit === 0 ? 'no' : 'mu') + '">' + (l.hit === 1 ? '✓' : l.hit === 0 ? '✗' : '–') + '</span><span class="nm"><b>' + esc(l.player) + '</b> <span class="mu">' + l.thr + '+</span></span><span class="nr">' + (l.hit === '' ? 'void' : 'made ' + esc(l.made)) + ' · <span class="od">' + odds(l.odds) + '</span></span></div>';
+}
+function nightCard(d, only) {
+  var ks = (only ? [only] : ORDER).filter(function (k) { return started(k, d.date); });
+  var legs = LEGS.filter(function (l) { return l.date === d.date && ks.indexOf(l.t) >= 0; });
+  var tracks = ks.filter(function (k) { return legs.some(function (l) { return l.t === k; }) || (num(d[TR[k].key + '_usd']) && Number(d[TR[k].key + '_usd']) !== 0); });
+  if (!tracks.length) return null;
+  var seen = {}, uniq = legs.filter(function (l) { var x = l.player + '|' + l.thr; if (seen[x]) return false; seen[x] = 1; return true; });
+  var hits = uniq.filter(function (l) { return l.hit === 1; }).length, net = tracks.reduce(function (a, k) { return a + (Number(d[TR[k].key + '_usd']) || 0); }, 0);
+  var best = String(d.best_today || '').replace(/ \(.*\)$/, '');
+  return { hits: hits, html: '<div class="card night"><div class="nh"><span><b>' + esc(dayLabel(d.date, { weekday: 'short', month: 'short', day: 'numeric' })) + '</b><small>' + uniq.length + ' play' + (uniq.length === 1 ? '' : 's') + ' · ' + hits + ' hit' + (!only && best && !/Nobody/.test(best) ? ' · best: ' + esc(best) : '') + '</small></span><span class="mono ' + cls(net) + '">' + money(net) + '</span></div>' +
+    tracks.map(function (k) { var v = d[TR[k].key + '_usd'], my = legs.filter(function (l) { return l.t === k; });
+      return '<div class="nt"><div class="ntt"><span style="color:' + TR[k].c + '"><i style="background:' + TR[k].c + '"></i>' + TR[k].name.toUpperCase() + '</span><span class="mono ' + cls(v) + '">' + (num(v) ? money(v) : '') + '</span></div>' + (my.length ? my.map(legLine).join('') : '<div class="mu" style="font-size:12.5px">' + esc(String(d[TR[k].key] || '')) + '</div>') + '</div>'; }).join('') + '</div>' };
+}
+function nightFeed() {
+  var dd = days().slice().reverse(), out = [], skipped = 0;
+  dd.forEach(function (d) {
+    var c = nightCard(d);
+    if (!c) { if (feedF === 'all') out.push('<div class="nightnone">' + esc(dayLabel(d.date, { weekday: 'short', month: 'short', day: 'numeric' })) + ' · no plays on any track</div>'); return; }
+    if (feedF === 'hits' && !c.hits) return;
+    out.push(c.html);
+  });
+  var shown = out.slice(0, feedN);
+  return '<div class="feedhead"><div class="k">Night by night</div><div class="chips">' + [['played', 'Nights we played'], ['all', 'All nights'], ['hits', 'Nights with a hit']].map(function (f) { return '<button data-feed="' + f[0] + '" class="' + (feedF === f[0] ? 'on' : '') + '">' + f[1] + '</button>'; }).join('') + '</div></div>' +
+    (shown.length ? shown.join('') : '<div class="card empty">No nights to show yet.</div>') + (out.length > feedN ? '<button class="more-n" data-moren="1">Show ' + Math.min(7, out.length - feedN) + ' more nights</button>' : '');
+}
+function trackView() {
+  var k = trackSel, tr = TR[k], s = season(), dd = days(), v = s[tr.key + '_usd'], rec = String(s[tr.key] || '').match(/(\d+) up \/ (\d+) down/);
+  var g = LEGS.filter(function (l) { return l.t === k && l.hit !== ''; }), h = g.filter(function (l) { return l.hit === 1; }).length;
+  var byDate = {}; dd.forEach(function (d) { if (started(k, d.date)) byDate[d.date] = d; });
+  var playedDates = Object.keys(byDate).filter(function (x) { return LEGS.some(function (l) { return l.t === k && l.date === x; }) || (num(byDate[x][tr.key + '_usd']) && Number(byDate[x][tr.key + '_usd']) !== 0); }).sort();
+  var selD = calSel[k] && byDate[calSel[k]] ? calSel[k] : playedDates[playedDates.length - 1];
+  var first = (tr.start && tr.start > '2026-10-20' ? tr.start : '2026-10-20'), months = [], m0 = new Date(first.slice(0, 7) + '-01T12:00:00Z'), mEnd = new Date(D.today.slice(0, 7) + '-01T12:00:00Z');
+  for (var m = new Date(m0); m <= mEnd; m.setUTCMonth(m.getUTCMonth() + 1)) months.push(new Date(m));
+  var cal = months.reverse().map(function (mm) {
+    var y = mm.getUTCFullYear(), mo = mm.getUTCMonth(), lead = new Date(Date.UTC(y, mo, 1, 12)).getUTCDay(), n = new Date(Date.UTC(y, mo + 1, 0, 12)).getUTCDate(), cells = '', tot = 0;
+    for (var i = 0; i < lead; i++) cells += '<span></span>';
+    for (var dn = 1; dn <= n; dn++) {
+      var iso = y + '-' + String(mo + 1).padStart(2, '0') + '-' + String(dn).padStart(2, '0'), d = byDate[iso], u = d ? d[tr.key + '_usd'] : '', txt = d ? String(d[tr.key] || '') : '';
+      var st = !d ? (iso === D.today ? 'today' : iso > D.today || iso < first ? 'future' : 'none') : num(u) && Number(u) > 0 ? 'up' : num(u) && Number(u) < 0 ? 'down' : /No bet|No legs/i.test(txt) ? 'nb' : 'none';
+      if (num(u)) tot += Number(u);
+      cells += (d ? '<button data-cal="' + iso + '"' : '<span') + ' class="cd ' + st + (iso === selD ? ' sel' : '') + '"><b>' + dn + '</b><small>' + (num(u) && Number(u) !== 0 ? (Number(u) > 0 ? '+' : '−') + Math.round(Math.abs(Number(u))) : st === 'nb' ? 'none' : '') + '</small>' + (d ? '</button>' : '</span>');
+    }
+    return '<div class="card calm"><div class="calh"><b>' + mm.toLocaleDateString('en-US', { month: 'long', timeZone: 'UTC' }) + '</b><span class="mono ' + cls(tot) + '">' + money(tot, 0) + '</span></div><div class="calg wk"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div><div class="calg">' + cells + '</div></div>';
+  }).join('');
+  var sheet = selD ? (nightCard(byDate[selD], k) || { html: '<div class="card empty">' + esc(dayLabel(selD)) + ': ' + esc(String(byDate[selD][tr.key] || 'no plays')) + '</div>' }).html : '<div class="card empty">No nights played yet. The calendar fills in after the first graded night.</div>';
+  return '<div class="stack"><div class="card tvh" style="--c:' + tr.c + '"><button class="link" data-view="results">← All results</button><div class="tvt"><span class="k" style="color:' + tr.c + '">' + tr.name.toUpperCase() + (tr.main ? ' · MAIN' : tr.lead ? ' · TEST' : '') + '</span><b class="' + cls(v) + '">' + money(num(v) ? v : 0, 2) + '</b><span class="mu">' + (rec ? rec[1] + '–' + rec[2] + ' nights' : 'no bets yet') + ' · ' + h + ' of ' + g.length + ' legs hit' + (g.length ? ' (' + pct(h / g.length) + ')' : '') + ' · ' + esc(tr.note) + '</span></div>' +
+    '<div class="chips">' + ORDER.map(function (x) { return '<button data-trackview="' + x + '" class="' + (x === k ? 'on' : '') + '" style="--c:' + TR[x].c + '">' + TR[x].name + '</button>'; }).join('') + '</div></div>' +
+    '<div class="tvgrid"><div class="stack">' + cal + '<div class="calkey"><span><i class="up"></i>Up</span><span><i class="down"></i>Down</span><span><i class="nb"></i>No bet</span><span><i class="none"></i>No record</span></div></div><div class="stack">' + sheet + '</div></div></div>';
 }
 function playerList() {
   var map = {};
@@ -631,11 +756,11 @@ function ticker() {
 }
 function render() {
   if (!D) return; prep();
-  document.querySelectorAll('[data-view]').forEach(function (b) { if (b.closest('#nav') || b.closest('#tabbar')) b.classList.toggle('on', b.dataset.view === view); });
+  document.querySelectorAll('[data-view]').forEach(function (b) { if (b.closest('#nav') || b.closest('#tabbar')) b.classList.toggle('on', b.dataset.view === (view === 'track' ? 'results' : view)); });
   ticker();
   el('stamp').textContent = LIVE && liveWindow() ? 'Live · stats ' + new Date(LIVE.updated).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' }) : 'Updated ' + timeCT(D.now) + ' CT · auto-refresh';
   var y = window.scrollY;
-  el('main').innerHTML = (view === 'today' ? todayView() : view === 'results' ? resultsView() : playersView()) + '<div class="foot">MOONSHOT · paper trials Oct 20 – Nov 16 and Nov 17 – Dec 18, 2026 · $' + D.plan.straight + ' straights · $' + D.plan.rr + ' round robin · $' + D.plan.parlay + ' parlay · reads your sheet, never changes it</div>';
+  el('main').innerHTML = (view === 'today' ? todayView() : view === 'results' ? resultsView() : view === 'track' ? trackView() : playersView()) + '<div class="foot">MOONSHOT · paper trials Oct 20 – Nov 16 and Nov 17 – Dec 18, 2026 · $' + D.plan.straight + ' straights · $' + D.plan.rr + ' round robin · $' + D.plan.parlay + ' parlay · reads your sheet, never changes it</div>';
   window.scrollTo(0, y);
   if (view === 'results') bindChart();
   var s = el('search'); if (s) { s.oninput = function () { q = s.value; var pos = s.selectionStart; render(); var s2 = el('search'); s2.focus(); s2.setSelectionRange(pos, pos); }; }
@@ -643,6 +768,10 @@ function render() {
 document.addEventListener('click', function (e) {
   var b = e.target.closest('button, tr[data-day], tr[data-player], .leg'); if (!b) return;
   if (b.dataset.view) { view = b.dataset.view; sel = null; render(); window.scrollTo(0, 0); return; }
+  if (b.dataset.trackview) { view = 'track'; trackSel = b.dataset.trackview; render(); window.scrollTo(0, 0); return; }
+  if (b.dataset.cal) { calSel[trackSel] = b.dataset.cal; render(); if (matchMedia('(max-width:760px)').matches) { var sh = document.querySelector('.tvgrid > .stack:last-child'); if (sh) sh.scrollIntoView({ behavior: 'smooth', block: 'start' }); } return; }
+  if (b.dataset.feed) { feedF = b.dataset.feed; feedN = 7; render(); return; }
+  if (b.dataset.moren) { feedN += 7; render(); return; }
   if (b.dataset.span) { span = b.dataset.span; render(); return; }
   if (b.dataset.mtrack) { mTrack = b.dataset.mtrack; render(); return; }
   if (b.dataset.hide) { hidden[b.dataset.hide] = !hidden[b.dataset.hide]; render(); return; }
@@ -650,7 +779,7 @@ document.addEventListener('click', function (e) {
   if (b.dataset.player) { view = 'players'; openPlayers[b.dataset.player] = true; render(); window.scrollTo(0, 0); return; }
   if (b.dataset.day && CH) { var i = CH.dd.findIndex(function (d) { return d.date === b.dataset.day; }); if (i >= 0) { showDay(i); el('chartcard').scrollIntoView({ behavior: 'smooth', block: 'center' }); } return; }
   if (b.id === 'refresh') { load(false); fetchLive(); return; }
-  if (b.classList.contains('leg') && (b.classList.contains('fold') || matchMedia('(max-width:760px)').matches) && !e.target.closest('.seg')) { openLegs[b.dataset.leg] = !openLegs[b.dataset.leg]; render(); }
+  if (b.classList.contains('leg') && (b.classList.contains('tix') || b.classList.contains('fold') || matchMedia('(max-width:760px)').matches) && !e.target.closest('.seg')) { openLegs[b.dataset.leg] = !openLegs[b.dataset.leg]; render(); }
 });
 setInterval(function () { document.querySelectorAll('[data-cd]').forEach(function (s) { s.textContent = cd(Number(s.dataset.cd) - Date.now()); }); }, 1000);
 var rsz; window.addEventListener('resize', function () { clearTimeout(rsz); rsz = setTimeout(render, 200); });
