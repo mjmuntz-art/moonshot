@@ -107,7 +107,7 @@ main{max-width:1440px;margin:auto;padding:22px 28px 60px}
 .link{color:#9fb0c6;text-decoration:underline;font:12px var(--sans)}
 /* results */
 .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.kpi.main{box-shadow:inset 0 0 0 1px var(--c)}.kpi .mainbadge{display:inline-block;margin-left:8px;padding:1px 6px;border-radius:4px;background:var(--c);color:#0b0f14;font:700 9px var(--mono);letter-spacing:.08em;vertical-align:2px}
-.hero{display:grid;grid-template-columns:minmax(0,1fr)}
+.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}.kpis.k4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .kpi{padding:14px 16px;border-top:3px solid var(--c)}.kpi .k{color:var(--c)}.kpi b{font:700 30px var(--mono);display:block;margin:6px 0 2px}.kpi span{font:11px var(--mono);color:var(--mute);display:block}
 .chartcard{padding:14px 16px;position:relative}
 .legend{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
@@ -158,7 +158,7 @@ td.u,th.u{text-align:right;font-family:var(--mono);font-weight:700;white-space:n
 .tabs{display:none}
 .tabbar{display:none}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#0f1a2c;border:1px solid var(--line);color:#fff;padding:10px 16px;border-radius:10px;font:12.5px var(--sans);z-index:40;max-width:90%}.hidden{display:none}
-@media (max-width:1100px){.cols{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}.kpi.main{grid-column:1/-1}}
+@media (max-width:1100px){.cols{grid-template-columns:minmax(0,1fr)}.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}.kpi.main{grid-column:1/-1}.kpis.k4{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis.k4 .kpi.main{grid-column:auto}}
 @media (max-width:760px){
   .top{padding:10px 16px}.nav{display:none}.status .txt{display:none}.logo{font-size:13px}
   .ticker .in{padding:7px 16px;gap:18px;font-size:11px}
@@ -176,7 +176,7 @@ td.u,th.u{text-align:right;font-family:var(--mono);font-weight:700;white-space:n
   .odds span{white-space:normal;display:block;max-width:84px;margin-left:auto;line-height:1.5}.who b{font-size:14.5px}
   .leg:not(.open) .more{display:none}
   .tgl{display:inline;font:11px var(--mono);color:var(--mute)}
-  .kpis{grid-template-columns:1fr 1fr}.kpi.main{grid-column:1/-1}.kpi b{font-size:24px}
+  .kpis{grid-template-columns:1fr 1fr}.kpi.main{grid-column:1/-1}.kpis.k4 .kpi.main{grid-column:auto}.kpi b{font-size:24px}
   .tip{display:none}.tipbelow{display:block;position:static;margin-top:10px;min-width:0;pointer-events:auto}
   .hide-sm{display:none}td,th{padding:8px 6px}
   .pdet{padding-left:4px}
@@ -208,9 +208,12 @@ var TR = {
   lad: { name: 'Ladder', c: '#9b6bff', key: 'ladder', note: 'best rung per player' },
   lw: { name: 'Ladder window', c: '#ff5aa5', key: 'ladder_window', note: 'since Oct 27', wt: 'LADDER WINDOW', start: '2026-10-27' },
   vv: { name: 'Volume V2', c: '#b6e35a', key: 'volume_v2', note: 'main track · live from Nov 10', start: '2026-10-26', main: true },
+  v5: { name: 'V2 5+ only', c: '#ffd35a', key: 'v2_five_only', note: 'test twin of V2 · from Nov 19', start: '2026-11-19', lead: true },
   me: { name: 'My picks', c: '#ff9a3c', key: 'my_picks', note: 'your own' }
 };
-var ORDER = ['vv', 'off', 'w5', 'lad', 'lw'], WIN_START = '2026-10-27';
+/* Trial 2 (from Nov 19): Ladder tracks retire and the V2 5+ only test joins. */
+var TRIAL2 = '2026-11-19', ORDER = ['vv', 'off', 'w5', 'lad', 'lw'], WIN_START = '2026-10-27';
+function setOrder() { ORDER = D && D.today >= TRIAL2 ? ['vv', 'v5', 'off', 'w5'] : ['vv', 'off', 'w5', 'lad', 'lw']; }
 function started(k, d) { return !TR[k].start || d >= TR[k].start; }
 var TEAM_ID = { ATL: 1610612737, BOS: 1610612738, BKN: 1610612751, CHA: 1610612766, CHI: 1610612741, CLE: 1610612739, DAL: 1610612742, DEN: 1610612743, DET: 1610612765, GSW: 1610612744, HOU: 1610612745, IND: 1610612754, LAC: 1610612746, LAL: 1610612747, MEM: 1610612763, MIA: 1610612748, MIL: 1610612749, MIN: 1610612750, NOP: 1610612740, NYK: 1610612752, OKC: 1610612760, ORL: 1610612753, PHI: 1610612755, PHX: 1610612756, POR: 1610612757, SAC: 1610612758, SAS: 1610612759, TOR: 1610612761, UTA: 1610612762, WAS: 1610612764 };
 var TEAM_COLOR = { ATL: '#e03a3e', BOS: '#007a33', BKN: '#9aa3ad', CHA: '#1d1160', CHI: '#ce1141', CLE: '#860038', DAL: '#00538c', DEN: '#0e2240', DET: '#c8102e', GSW: '#1d428a', HOU: '#ce1141', IND: '#fdbb30', LAC: '#c8102e', LAL: '#552583', MEM: '#5d76a9', MIA: '#98002e', MIL: '#00471b', MIN: '#236192', NOP: '#85714d', NYK: '#f58426', OKC: '#007ac1', ORL: '#0077c0', PHI: '#006bb6', PHX: '#e56020', POR: '#e03a3e', SAC: '#5a2d81', SAS: '#c4ced4', TOR: '#ce1141', UTA: '#753bbd', WAS: '#e31837' };
@@ -243,6 +246,7 @@ function matchup(team, opp) { team = T(team); opp = T(opp); return team ? logo(t
 
 /* ================= data ================= */
 function prep() {
+  setOrder();
   IDS = {};
   var add = function (n, id) { if (n && id && /^\d+$/.test(String(id))) IDS[nkey(n)] = String(id); };
   Object.keys(D.players || {}).forEach(function (id) { add(D.players[id].name, id); });
@@ -262,9 +266,9 @@ function gradedLegs() {
     if (r.result_status !== 'FINAL' && r.result_status !== 'VOID') return; var tm = lockTeam[r.date + '|' + r.nba_player_id] || [], h = r.result_status === 'VOID' ? '' : Number(r.hit);
     push('off', r, r.nba_player_id, tm[0], tm[1], 5, r.result_status, h, r.three_pm, h === '' ? 0 : h ? P.straight * (decOf(r.american_odds) - 1) : -P.straight);
   });
-  (D.ladderLegs || []).concat((D.windowLegs || []).map(function (r) { return Object.assign({ _w: r.track }, r); }), (D.volumeLegs || []).map(function (r) { return Object.assign({ _w: 'VOLUME V2' }, r); })).forEach(function (r) {
+  (D.ladderLegs || []).concat((D.windowLegs || []).map(function (r) { return Object.assign({ _w: r.track }, r); }), (D.volumeLegs || []).map(function (r) { return Object.assign({ _w: r.track === 'V2 5+ ONLY' ? 'V2 5+ ONLY' : 'VOLUME V2' }, r); })).forEach(function (r) {
     if (r.result_status !== 'FINAL' && r.result_status !== 'VOID') return; var h = r.result_status === 'VOID' ? '' : Number(r.hit);
-    push(r._w ? (r._w === '5+ WINDOW' ? 'w5' : r._w === 'VOLUME V2' ? 'vv' : 'lw') : 'lad', r, r.nba_player_id, r.team, r.opponent, r.threshold, r.result_status, h, r.three_pm, h === '' ? 0 : h ? P.straight * (decOf(r.american_odds) - 1) : -P.straight);
+    push(r._w ? (r._w === '5+ WINDOW' ? 'w5' : r._w === 'VOLUME V2' ? 'vv' : r._w === 'V2 5+ ONLY' ? 'v5' : 'lw') : 'lad', r, r.nba_player_id, r.team, r.opponent, r.threshold, r.result_status, h, r.three_pm, h === '' ? 0 : h ? P.straight * (decOf(r.american_odds) - 1) : -P.straight);
   });
   var logId = {}; (D.myLog || []).forEach(function (l) { logId[l.date + '|' + nkey(l.player)] = l.nba_player_id; });
   (D.mine || []).forEach(function (r) {
@@ -291,8 +295,10 @@ function todayTracks() {
     res[k] = !rows.length ? { state: t < WIN_START ? 'notyet' : 'wait', legs: [] } : { state: 'recorded', note: (rows.filter(function (r) { return Number(r.rank) > 0; }).length < 3 ? rows[0].note : ''), legs: rows.filter(function (r) { return Number(r.rank) > 0; }).map(function (r) { return N({ id: r.nba_player_id, player: r.player, team: r.team, opp: r.opponent, thr: Number(r.threshold), odds: r.american_odds, book: r.book, model: r.model_p, implied: r.implied_p }); }) };
   });
   // Volume V2
-  var vrows = (D.volumePicks || []).filter(function (r) { return r.date === t; });
-  res.vv = !vrows.length ? { state: t < TR.vv.start ? 'notyet' : 'wait', legs: [] } : { state: 'recorded', legs: vrows.filter(function (r) { return Number(r.rank) > 0; }).map(function (r) { return N({ id: r.nba_player_id, player: r.player, team: r.team, opp: r.opponent, thr: Number(r.threshold), odds: r.american_odds, book: r.book, model: r.model_p, implied: r.implied_p }); }) };
+  [['vv', 'VOLUME V2'], ['v5', 'V2 5+ ONLY']].forEach(function (x) {
+    var vrows = (D.volumePicks || []).filter(function (r) { return r.date === t && (r.track || 'VOLUME V2') === x[1]; });
+    res[x[0]] = !vrows.length ? { state: t < TR[x[0]].start ? 'notyet' : 'wait', legs: [] } : { state: 'recorded', legs: vrows.filter(function (r) { return Number(r.rank) > 0; }).map(function (r) { return N({ id: r.nba_player_id, player: r.player, team: r.team, opp: r.opponent, thr: Number(r.threshold), odds: r.american_odds, book: r.book, model: r.model_p, implied: r.implied_p }); }) };
+  });
   // Mine
   var logId = {}; (D.myLog || []).forEach(function (l) { logId[l.date + '|' + nkey(l.player)] = l.nba_player_id; });
   var mine = (D.mine || []).filter(function (r) { return r.date === t && r.player; });
@@ -303,7 +309,7 @@ function todayTracks() {
 function season() { return (D.results || []).filter(function (r) { return r.date === 'SEASON'; })[0] || {}; }
 function days() { return (D.results || []).filter(function (r) { return r.date !== 'SEASON'; }).slice().reverse(); }
 /* Today page: the main track always first, backups by season $. */
-function mainOrder() { var o = trackOrder(); return o.filter(function (k) { return TR[k].main; }).concat(o.filter(function (k) { return !TR[k].main; })); }
+function mainOrder() { var o = trackOrder(); return o.filter(function (k) { return TR[k].main; }).concat(o.filter(function (k) { return TR[k].lead; }), o.filter(function (k) { return !TR[k].main && !TR[k].lead; })); }
 function trackOrder() { var s = season(); return ORDER.slice().sort(function (a, b) { return (Number(s[TR[b].key + '_usd']) || 0) - (Number(s[TR[a].key + '_usd']) || 0); }); }
 
 /* player stats */
@@ -353,7 +359,7 @@ function gauge(par) {
 }
 function trackCard(k, d, compact) {
   var tr = TR[k], L = d.legs, inRange = d.parlay >= 10000 && d.parlay <= 18000;
-  var head = '<div class="th"><span class="t">■ ' + tr.name + (tr.main ? ' · MAIN' : '') + (L.length ? ' · ' + L.length + (L.length === 1 ? ' LEG' : ' LEGS') : '') + '</span><span class="b">' + (d.book ? esc(bookName(d.book)).toUpperCase() : '') + (k === 'lw' ? (d.book ? ' · ' : '') + 'HIGH-USAGE SHOOTERS' : '') + '</span></div>';
+  var head = '<div class="th"><span class="t">■ ' + tr.name + (tr.main ? ' · MAIN' : tr.lead ? ' · TEST' : '') + (L.length ? ' · ' + L.length + (L.length === 1 ? ' LEG' : ' LEGS') : '') + '</span><span class="b">' + (d.book ? esc(bookName(d.book)).toUpperCase() : '') + (k === 'lw' ? (d.book ? ' · ' : '') + 'HIGH-USAGE SHOOTERS' : '') + '</span></div>';
   var par = d.parlay ? '<div class="par"><strong>' + odds(d.parlay) + '</strong><span class="pill ' + (inRange ? 'in' : d.parlay > 18000 ? 'hot' : 'out') + '">' + (inRange ? 'IN 10K–18K RANGE' : d.parlay > 18000 ? 'OVER RANGE' : 'UNDER RANGE') + '</span><span class="k" style="margin-left:auto">FULL PARLAY</span></div>' + (compact ? '' : gauge(d.parlay))
     : L.length === 1 ? '<div class="par"><strong>' + odds(L[0].odds) + '</strong><span class="pill out">1 LEG · STRAIGHT ONLY</span></div>' : '';
   var empty = { wait: 'Waiting for today\'s board.', notyet: 'Not started yet.', nobet: 'No bet today. Nothing met the trial rules.', empty: 'No picks of your own yet. Type them on the MY PICKS tab before tip-off.', recorded: 'Nothing qualified today.', suggested: 'Nothing qualified today.', locked: 'No legs.' }[d.state] || 'No picks.';
@@ -389,7 +395,7 @@ function countdown() {
   else { label = next ? 'Games underway · next tip ' + timeCT(new Date(next).toISOString()) + ' CT' : 'Games underway'; big = next ? '<span data-cd="' + next + '">' + cd(next - now) + '</span>' : 'LIVE'; }
   meta.push(tips.length ? tips.length + ' games today' : '');
   meta.push(D.board.date === t ? 'Board pulled ' + timeCT(D.board.snapshot) + (autoLock && !dec ? ' · autopilot locks ' + autoLock : '') : auto ? 'Board posts at ' + auto + ' (autopilot)' : D.pull ? 'DAILY 1 window ' + D.pull.daily1_opens_ct + '–' + D.pull.daily1_closes_ct : '');
-  var dn = Math.round((Date.parse(t + 'T12:00:00Z') - Date.parse('2026-10-20T12:00:00Z')) / 864e5) + 1; if (dn >= 1 && dn <= 30) meta.push('Paper trial · day ' + dn + ' of 30');
+  var dn = Math.round((Date.parse(t + 'T12:00:00Z') - Date.parse('2026-10-20T12:00:00Z')) / 864e5) + 1; if (dn >= 1 && dn <= 30) meta.push('Paper trial · day ' + dn + ' of 30'); else if (dn > 30 && dn <= 60) meta.push('Paper trial 2 · day ' + (dn - 30) + ' of 30');
   return '<div class="card count"><div><div class="k">' + esc(label) + '</div><div class="big">' + big + '</div></div><div class="meta">' + meta.filter(Boolean).map(esc).join('<br>') + '</div></div>';
 }
 function cd(ms) { if (ms <= 0) return '0:00'; var s = Math.floor(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(x).padStart(2, '0'); }
@@ -398,7 +404,7 @@ function cd(ms) { if (ms <= 0) return '0:00'; var s = Math.floor(ms / 1000), h =
 function todayView() {
   var tt = todayTracks(), ord = mainOrder(), mobile = matchMedia('(max-width:760px)').matches;
   if (!mTrack || ord.indexOf(mTrack) < 0) mTrack = ord.filter(function (k) { return tt[k].legs.length; })[0] || ord[0];
-  var lead = ord.slice(0, 1), others = ord.slice(1);
+  var lead = ord.filter(function (k) { return TR[k].main || TR[k].lead; }), others = ord.filter(function (k) { return !TR[k].main && !TR[k].lead; });
   var tabs = '<div class="tabs">' + ord.map(function (k) { return '<button style="--c:' + TR[k].c + '" data-mtrack="' + k + '" class="' + (k === mTrack ? 'on' : '') + '">' + TR[k].name.toUpperCase() + (tt[k].legs.length ? ' · ' + tt[k].legs.length : '') + '</button>'; }).join('') + '</div>';
   var cards = mobile ? '<div class="trackwrap">' + ord.map(function (k) { return trackCard(k, tt[k]).replace('class="card trk"', 'class="card trk' + (k === mTrack ? ' sel' : '') + '"'); }).join('') + '</div>'
     : '<div class="hero">' + lead.map(function (k) { return trackCard(k, tt[k]); }).join('') + '</div><div class="duo">' + others.map(function (k) { return trackCard(k, tt[k], true); }).join('') + '</div>';
@@ -414,12 +420,12 @@ function tagFor(txt, usd, k, date) {
 }
 function resultsView() {
   var s = season(), dd = days(), legs = LEGS;
-  var kp = '<div class="kpis">' + ORDER.map(function (k) {
+  var kp = '<div class="kpis' + (ORDER.length === 4 ? ' k4' : '') + '">' + ORDER.map(function (k) {
     var g = legs.filter(function (l) { return l.t === k && l.hit !== ''; }), h = g.filter(function (l) { return l.hit === 1; }).length, v = s[TR[k].key + '_usd'], rec = String(s[TR[k].key] || '').match(/(\d+) up \/ (\d+) down/);
     return '<div class="card kpi' + (TR[k].main ? ' main' : '') + '" style="--c:' + TR[k].c + '"><div class="k">' + TR[k].name + (TR[k].main ? '<span class="mainbadge">MAIN</span>' : '') + '</div><b class="' + cls(v) + '">' + money(num(v) ? v : 0, 0) + '</b><span>' + (rec ? rec[1] + '–' + rec[2] + ' days' : 'no bets yet') + ' · ' + h + '/' + g.length + ' legs</span><span>' + (g.length ? pct(h / g.length) + ' hit rate' : '') + '</span></div>';
   }).join('') + '</div>';
   var chart = '<div class="card chartcard" id="chartcard"><div class="k">Running profit · ' + (matchMedia('(hover:hover)').matches ? 'hover' : 'tap') + ' a day for details</div><div class="legend">' + ORDER.map(function (k) { return '<button data-hide="' + k + '" class="' + (hidden[k] ? 'off' : '') + '" style="--c:' + TR[k].c + '"><i></i>' + TR[k].name + '</button>'; }).join('') + '</div><div id="chart">' + chartSvg(dd) + '</div></div>';
-  var nightly = '<div class="card" style="padding:14px 16px;overflow-x:auto"><div class="k">Night by night</div><table><tr><th>Night</th>' + ORDER.map(function (k) { return '<th style="color:' + TR[k].c + '">' + (k === 'w5' ? '5+ win.' : k === 'lw' ? 'Lad. win.' : k === 'vv' ? 'Vol. V2' : TR[k].name) + '</th>'; }).join('') + '<th class="u">Best</th></tr>' +
+  var nightly = '<div class="card" style="padding:14px 16px;overflow-x:auto"><div class="k">Night by night</div><table><tr><th>Night</th>' + ORDER.map(function (k) { return '<th style="color:' + TR[k].c + '">' + (k === 'w5' ? '5+ win.' : k === 'lw' ? 'Lad. win.' : k === 'vv' ? 'Vol. V2' : k === 'v5' ? 'V2 5+' : TR[k].name) + '</th>'; }).join('') + '<th class="u">Best</th></tr>' +
     (dd.length ? dd.slice().reverse().map(function (d) { return '<tr data-day="' + d.date + '" style="cursor:pointer"><td style="white-space:nowrap">' + esc(dayLabel(d.date, { weekday: 'short', month: 'short', day: 'numeric' })) + '</td>' + ORDER.map(function (k) { return '<td>' + tagFor(d[TR[k].key], d[TR[k].key + '_usd'], k, d.date) + '</td>'; }).join('') + '<td class="u ' + (/\+\$/.test(d.best_today) ? 'ok' : 'mu') + '">' + esc(String(d.best_today || '').replace(/^.*\((.*)\)$/, '$1') || '—') + '</td></tr>'; }).join('') : '<tr><td colspan="7" class="mu">No graded nights yet.</td></tr>') + '</table></div>';
   var players = playerTable(8);
   return '<div class="stack">' + kp + chart + nightly + players + '</div>';
@@ -629,7 +635,7 @@ function render() {
   ticker();
   el('stamp').textContent = LIVE && liveWindow() ? 'Live · stats ' + new Date(LIVE.updated).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit' }) : 'Updated ' + timeCT(D.now) + ' CT · auto-refresh';
   var y = window.scrollY;
-  el('main').innerHTML = (view === 'today' ? todayView() : view === 'results' ? resultsView() : playersView()) + '<div class="foot">MOONSHOT · paper trial Oct 20 – Nov 18, 2026 · $' + D.plan.straight + ' straights · $' + D.plan.rr + ' round robin · $' + D.plan.parlay + ' parlay · reads your sheet, never changes it</div>';
+  el('main').innerHTML = (view === 'today' ? todayView() : view === 'results' ? resultsView() : playersView()) + '<div class="foot">MOONSHOT · paper trials Oct 20 – Nov 18 and Nov 19 – Dec 18, 2026 · $' + D.plan.straight + ' straights · $' + D.plan.rr + ' round robin · $' + D.plan.parlay + ' parlay · reads your sheet, never changes it</div>';
   window.scrollTo(0, y);
   if (view === 'results') bindChart();
   var s = el('search'); if (s) { s.oninput = function () { q = s.value; var pos = s.selectionStart; render(); var s2 = el('search'); s2.focus(); s2.setSelectionRange(pos, pos); }; }
